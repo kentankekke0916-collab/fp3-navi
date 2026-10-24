@@ -537,8 +537,8 @@ function dogSVG(kind,mood){
   const mouth=mood==="cheer"||mood==="happy"
     ?`<path d="M53 61.5 Q58 69 63 61.5Z" fill="#ee8b86" stroke="${P.line}" stroke-width="2" stroke-linejoin="round"/>`
     :`<path d="M54.5 61 Q56.5 63.5 58 61 Q59.5 63.5 61.5 61" fill="none" stroke="${P.line}" stroke-width="2" stroke-linecap="round"/>`;
-  // cheer：両手を胸の前でぎゅっと上げて「やったー」（腕も体と同じもこもこで描く。棒の腕や1つだけの丸はしっぽに見えて違和感があった）
-  const paw=mood==="cheer"?part(curl(47,86,3.5,7,3.8).concat(curl(44,80,4,8,4)),P.fur)+part(curl(69,86,3.5,7,3.8).concat(curl(72,80,4,8,4)),P.fur):"";
+  // cheer：腕は描かない（もこもこの丸・棒の腕・両手どれも違和感があったため。kenta確認済み）。表情は happy と同じ
+  const paw="";
   return `<svg viewBox="0 0 120 124" class="dog dog-${kind}" role="img" aria-label="${kind==="oimo"?"おいもくん":"マシュマロくん"}">
     <ellipse cx="62" cy="117" rx="36" ry="5" fill="#d9952f" opacity=".22"/>
     ${part(tail,P.fur)}${part(body,P.fur)}${paws}
