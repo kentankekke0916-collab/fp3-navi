@@ -129,6 +129,49 @@ a.item:hover{border-color:var(--accent)}
 .foot{font-size:.75rem;color:var(--muted);line-height:1.6;margin:0}
 @media (max-width:420px){.form{grid-template-columns:1fr}.facts .fact b{font-size:1.05rem}.tabs button{font-size:.8rem}}
 @media (prefers-reduced-motion:no-preference){.fill{transition:width .4s ease}}
+/* 独学ナビ用：おいもくん・マシュマロくんのかわいいテーマ（build.py で original 版だけに入る） */
+:root{
+  --bg:#fff7ef; --surface:#ffffff; --ink:#4a3328; --muted:#8a7366; --line:#f0e0d2;
+  --accent:#b0683a; --accent-soft:#fbeadb; --accent-ink:#ffffff;
+  --gold:#e58f8f; --ok:#3f8a5b; --ok-soft:#e5f4ea; --ng:#c95a52; --ng-soft:#fde8e6;
+  --f-body:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Hiragino Sans",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#241b17; --surface:#2f2520; --ink:#f6ebe2; --muted:#c4ae9f; --line:#4a3a31;
+  --accent:#e2a06a; --accent-soft:#4a3426; --accent-ink:#241b17;
+  --gold:#f0a5a5; --ok:#7cc796; --ok-soft:#24392b; --ng:#f09a92; --ng-soft:#47292a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#241b17; --surface:#2f2520; --ink:#f6ebe2; --muted:#c4ae9f; --line:#4a3a31;
+  --accent:#e2a06a; --accent-soft:#4a3426; --accent-ink:#241b17;
+  --gold:#f0a5a5; --ok:#7cc796; --ok-soft:#24392b; --ng:#f09a92; --ng-soft:#47292a; color-scheme:dark}
+body{background-color:var(--bg);background-image:radial-gradient(var(--line) 1.6px,transparent 1.8px);background-size:22px 22px}
+h1{font-size:1.9rem;color:var(--accent);text-align:center}
+.eyebrow,.lead{text-align:center}
+.box{border-radius:22px;border-width:2px}
+.fact{border-radius:16px;border-width:2px;text-align:center}
+.tabs{border-radius:999px;border-width:2px}
+.tabs button{border-radius:999px}
+.primary,.ghost,.danger{border-radius:999px}
+.opt{border-radius:16px;border-width:2px}
+.chip{border-width:2px}
+.explain,.verdict,.cta{border-radius:16px}
+.item{border-radius:16px;border-width:2px}
+.duo{display:flex;justify-content:center;align-items:flex-end;gap:2px;margin-top:10px}
+.duo svg{width:100px;height:100px;display:block}
+.duo-cap{text-align:center;font-size:.85rem;color:var(--muted);margin:0}
+.say{display:flex;align-items:flex-end;gap:8px}
+.say-dog{flex:none}
+.say-dog svg{width:64px;height:64px;display:block}
+.bubble{position:relative;background:var(--accent-soft);border-radius:16px;padding:10px 12px;font-size:.92rem;min-width:0;margin-bottom:8px}
+.bubble::before{content:"";position:absolute;left:-7px;bottom:14px;border:7px solid transparent;border-right-color:var(--accent-soft);border-left:0}
+@media (prefers-reduced-motion:no-preference){
+  .say-dog svg{animation:hop .5s ease}
+  .duo svg{animation:sway 3s ease-in-out infinite;transform-origin:50% 100%}
+  .duo svg+svg{animation-delay:-1.5s}
+}
+@keyframes hop{0%{transform:translateY(8px)}60%{transform:translateY(-5px)}100%{transform:none}}
+@keyframes sway{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}
+
 </style>
 
 </head>
@@ -138,6 +181,7 @@ a.item:hover{border-color:var(--accent)}
     <div class="eyebrow">独学でFP3級を目指す人のためのツール</div>
     <h1>FP3級 独学ナビ</h1>
     <p class="lead">試験日から逆算した学習プランを作って、6分野180問のオリジナル問題と本番形式の模擬試験で苦手をつぶす。スキマ時間に毎日ちょっとずつ使う前提のツールだよ。</p>
+    <div id="mascotHead"></div>
     <div class="facts">
       <div class="fact"><b>60問</b><span>学科（○×30＋三択30）</span></div>
       <div class="fact"><b>120分</b><span>学科の試験時間</span></div>
@@ -434,7 +478,45 @@ const Q = [
  {f:"sozoku",t:"○×",q:"贈与税の申告期間は、贈与を受けた年の翌年2月16日から3月15日までである。",o:["○","×"],a:1,e:"誤り。贈与税の申告期間は翌年2月1日から3月15日まで。所得税の確定申告（2月16日から）と始まりの日が違うので注意。"}
 ];
 Q.forEach((q,i)=>q.id=i);
-const CFG = {"promo": {"tag": "kentankekke-22", "disclosure": "Amazonのアソシエイトとして、当サイトの運営者は適格販売により収入を得ています。", "catalog": {"text": {"label": "テキスト", "name": "みんなが欲しかった！ FPの教科書3級 2026-2027年版（TAC出版）", "text": "オールカラーの図解で6分野を1冊で学べる定番テキスト。学科・実技の両方に対応していて、動画とアプリ、赤シートもついてる。", "asin": "", "url": "https://link.amazon/B0e4TVOTc"}, "mondai": {"label": "問題集", "name": "みんなが欲しかった！ FPの問題集3級 2026-2027年版（TAC出版）", "text": "同じシリーズの教科書に完全対応した問題集。頻出の過去問とポイント整理で、学科に加えてFP協会・きんざいの実技にも対応。CBT形式の模擬試験プログラムつき。", "asin": "", "url": "https://link.amazon/B0ciDy6GL"}, "yoso": {"label": "直前対策", "name": "FP3級の直前予想問題集", "text": "本番形式の予想問題が数回分ついているもの。", "asin": ""}, "jitsugi_fp": {"label": "実技（日本FP協会）", "name": "資産設計提案業務の問題集", "text": "FP協会の実技に対応した問題集。", "asin": ""}, "jitsugi_kojin": {"label": "実技（きんざい）", "name": "個人資産相談業務の問題集", "text": "きんざいの個人資産相談業務に対応した問題集。", "asin": ""}, "jitsugi_hoken": {"label": "実技（きんざい）", "name": "保険顧客資産相談業務の問題集", "text": "きんざいの保険顧客資産相談業務に対応した問題集。", "asin": ""}}, "note": {"title": "勉強法はnoteでくわしく解説中", "text": "このツールの使い方と、FP3級に最短で受かるための勉強スケジュールをまとめてるよ。", "link": "noteを読む", "url": ""}}};
+const CFG = {"mascot": true, "promo": {"tag": "kentankekke-22", "disclosure": "Amazonのアソシエイトとして、当サイトの運営者は適格販売により収入を得ています。", "catalog": {"text": {"label": "テキスト", "name": "みんなが欲しかった！ FPの教科書3級 2026-2027年版（TAC出版）", "text": "オールカラーの図解で6分野を1冊で学べる定番テキスト。学科・実技の両方に対応していて、動画とアプリ、赤シートもついてる。", "asin": "", "url": "https://link.amazon/B0e4TVOTc"}, "mondai": {"label": "問題集", "name": "みんなが欲しかった！ FPの問題集3級 2026-2027年版（TAC出版）", "text": "同じシリーズの教科書に完全対応した問題集。頻出の過去問とポイント整理で、学科に加えてFP協会・きんざいの実技にも対応。CBT形式の模擬試験プログラムつき。", "asin": "", "url": "https://link.amazon/B0ciDy6GL"}, "yoso": {"label": "直前対策", "name": "FP3級の直前予想問題集", "text": "本番形式の予想問題が数回分ついているもの。", "asin": ""}, "jitsugi_fp": {"label": "実技（日本FP協会）", "name": "資産設計提案業務の問題集", "text": "FP協会の実技に対応した問題集。", "asin": ""}, "jitsugi_kojin": {"label": "実技（きんざい）", "name": "個人資産相談業務の問題集", "text": "きんざいの個人資産相談業務に対応した問題集。", "asin": ""}, "jitsugi_hoken": {"label": "実技（きんざい）", "name": "保険顧客資産相談業務の問題集", "text": "きんざいの保険顧客資産相談業務に対応した問題集。", "asin": ""}}, "note": {"title": "勉強法はnoteでくわしく解説中", "text": "このツールの使い方と、FP3級に最短で受かるための勉強スケジュールをまとめてるよ。", "link": "noteを読む", "url": ""}}};
+/* おいもくん・マシュマロくん（デフォルメSVG）。kind: "oimo" | "mallow"、mood: "smile" | "happy" | "cheer" */
+function dogSVG(kind,mood){
+  const P=kind==="oimo"
+    ?{fur:"#c98a52",dark:"#a8693a",muzzle:"#e2b07e",line:"#7a4a26",hood:"#5d6470",hoodIn:"#f4efe9"}
+    :{fur:"#fffdf8",dark:"#f1e9df",muzzle:"#ffffff",line:"#b9aea4",hood:null};
+  // もこもこの輪郭（同じ形を太線で下に敷いて、フチ取りにする）
+  const puffs=[[60,92,26],[40,98,13],[80,98,13],[60,104,14],
+    [60,50,30],[38,40,14],[82,40,14],[48,26,13],[72,26,13],[60,22,14],[34,58,12],[86,58,12]];
+  const ears=[[30,64,15],[90,64,15],[27,78,11],[93,78,11]];
+  const c=(a,f,extra="")=>a.map(([x,y,r])=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${f}" ${extra}/>`).join("");
+  const outline=c(puffs.concat(ears),P.line,`stroke="${P.line}" stroke-width="5"`);
+  const hood=P.hood?`<path d="M33 38 Q35 13 60 11 Q85 13 87 38 Q60 29 33 38Z" fill="${P.hood}"/>
+    <circle cx="36" cy="17" r="9" fill="${P.hood}"/><circle cx="84" cy="17" r="9" fill="${P.hood}"/>
+    <circle cx="36" cy="17" r="9" fill="none" stroke="${P.line}" stroke-width="2.5"/><circle cx="84" cy="17" r="9" fill="none" stroke="${P.line}" stroke-width="2.5"/>
+    <path d="M33 38 Q35 13 60 11 Q85 13 87 38" fill="none" stroke="${P.line}" stroke-width="2.5"/>
+    <path d="M36 84 Q60 94 84 84 L84 90 Q60 100 36 90Z" fill="${P.hood}"/>`:"";
+  const eyes=mood==="happy"||mood==="cheer"
+    ?`<path d="M44 58 Q49 52 54 58" fill="none" stroke="#2b2420" stroke-width="3" stroke-linecap="round"/><path d="M66 58 Q71 52 76 58" fill="none" stroke="#2b2420" stroke-width="3" stroke-linecap="round"/>`
+    :`<circle cx="49" cy="57" r="5.6" fill="#2b2420"/><circle cx="71" cy="57" r="5.6" fill="#2b2420"/><circle cx="50.6" cy="55.4" r="2" fill="#fff"/><circle cx="72.6" cy="55.4" r="2" fill="#fff"/>`;
+  const mouth=mood==="cheer"
+    ?`<path d="M53 72 Q60 82 67 72Z" fill="#e87d7d" stroke="#2b2420" stroke-width="2" stroke-linejoin="round"/>`
+    :`<path d="M54 71 Q57 75 60 71 Q63 75 66 71" fill="none" stroke="#2b2420" stroke-width="2.2" stroke-linecap="round"/>`;
+  const arms=mood==="cheer"?c([[30,86,8],[90,86,8]],P.fur,`stroke="${P.line}" stroke-width="2.5"`):"";
+  return `<svg viewBox="0 0 120 120" class="dog dog-${kind}" role="img" aria-label="${kind==="oimo"?"おいもくん":"マシュマロくん"}">
+    <ellipse cx="60" cy="115" rx="30" ry="4" fill="#000" opacity=".08"/>
+    ${outline}${c(ears,P.dark)}${c(puffs,P.fur)}
+    ${hood}
+    <ellipse cx="60" cy="68" rx="14" ry="10" fill="${P.muzzle}"/>
+    <ellipse cx="42" cy="68" rx="6" ry="3.6" fill="#f4a3a3" opacity=".7"/><ellipse cx="78" cy="68" rx="6" ry="3.6" fill="#f4a3a3" opacity=".7"/>
+    ${eyes}<ellipse cx="60" cy="65" rx="5.2" ry="4" fill="#2b2420"/><ellipse cx="58.5" cy="63.8" rx="1.6" ry="1" fill="#fff" opacity=".7"/>
+    ${mouth}${arms}
+  </svg>`;
+}
+
+const MAS=!!CFG.mascot;
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+function say(kind,mood,text){return `<div class="say"><div class="say-dog">${dogSVG(kind,mood)}</div><div class="bubble">${text}</div></div>`}
+if(MAS) document.getElementById("mascotHead").innerHTML=`<div class="duo">${dogSVG("oimo","smile")}${dogSVG("mallow","happy")}</div><p class="duo-cap">おいもくんとマシュマロくんが、合格までいっしょに応援するよ。</p>`;
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 /* ---- 状況に合わせた教材紹介（CFG.promo がある版だけ） ---- */
 function amzURL(asin){const p=CFG.promo;return asin?`https://www.amazon.co.jp/dp/${encodeURIComponent(asin)}${p.tag?"?tag="+encodeURIComponent(p.tag):""}`:""}
@@ -607,7 +689,7 @@ function answer(i){
   record(q,ok); saveStats();
   box.querySelectorAll(".opt").forEach(b=>{const k=+b.dataset.i;b.disabled=true;if(k===q.a)b.classList.add("right");else if(k===i)b.classList.add("wrong")});
   const last=idx===queue.length-1;
-  document.getElementById("after").innerHTML=`<div class="explain"><b>${ok?"正解！":"おしい、不正解。"}</b> ${q.e}</div>
+  document.getElementById("after").innerHTML=`${MAS?(ok?say("oimo","cheer",pick(["正解！その調子！","さすが！どんどんいこう","覚えてきたね！"])):say("mallow","smile",pick(["おしい！解説を読めば次は解けるよ","大丈夫、間違えた問題はあとで解き直せるよ","ここ、よく出るところだから覚えちゃおう"]))):""}<div class="explain"><b>${ok?"正解！":"おしい、不正解。"}</b> ${q.e}</div>
     <button class="primary" id="nextBtn" style="margin-top:12px">${last?"結果を見る":"次の問題へ"}</button>`;
   document.getElementById("nextBtn").addEventListener("click",()=>{if(last)showResult();else{idx++;showQ()}});
   document.getElementById("nextBtn").focus();
@@ -616,7 +698,7 @@ function showResult(){
   const box=document.getElementById("quizBox"), pct=Math.round(correct/queue.length*100);
   const msg=pct>=80?"この調子！本番の合格ラインは6割だから、安定して8割取れれば安心。":pct>=60?"合格ラインには届いてる。間違えた問題は「間違えた問題」から解き直そう。":"今はまだ覚える段階だから大丈夫。解説を読み返して、もう一度チャレンジしよう。";
   box.innerHTML=`<div class="qmeta"><span>今回の結果</span><span>${queue.length}問</span></div>
-    <div class="score">${correct} / ${queue.length}</div><p style="margin:0">${msg}</p>
+    <div class="score">${correct} / ${queue.length}</div>${MAS?say(pct>=60?"oimo":"mallow",pct>=60?"cheer":"smile",msg):`<p style="margin:0">${msg}</p>`}
     <button class="primary" id="again">もう一度（同じ条件）</button>`;
   recQuiz(correct,queue.length);
   box.innerHTML+=`
@@ -688,7 +770,7 @@ function finishMock(timeout){
   box.innerHTML=`<div class="qmeta"><span>${timeout?"時間切れで採点したよ":"模擬試験の結果"}</span><span>60問</span></div>
     <div class="score">${score} <span style="font-size:1rem">/ 60点</span></div>
     <div><span class="pass ${pass?"ok":"ng"}">${pass?"合格ライン到達":"合格ラインまであと"+(36-score)+"点"}</span></div>
-    <p style="margin:0">${score>=48?"かなり仕上がってる。本番も落ち着いていけば大丈夫。":pass?"合格ラインは超えてる。本番は緊張で点が下がりやすいから、8割（48点）を目標に間違えた問題をつぶそう。":"まずは正答率の低い分野からミニ問題で復習しよう。間違えた問題は自動で「間違えた問題」に入ってるよ。"}</p>
+    ${(m=>MAS?say(pass?"oimo":"mallow",pass?"cheer":"smile",m):`<p style="margin:0">${m}</p>`)(score>=48?"かなり仕上がってる。本番も落ち着いていけば大丈夫。":pass?"合格ラインは超えてる。本番は緊張で点が下がりやすいから、8割（48点）を目標に間違えた問題をつぶそう。":"まずは正答率の低い分野からミニ問題で復習しよう。間違えた問題は自動で「間違えた問題」に入ってるよ。")}
     <div class="bars">${FIELDS.map(f=>{const b=byF[f.id]||{c:0,n:0};const p=b.n?Math.round(b.c/b.n*100):0;return `<div class="bar"><span>${f.short}</span><div class="track"><div class="fill ${p<60?"low":""}" style="width:${p}%"></div></div><span class="num">${b.c} / ${b.n}</span></div>`}).join("")}</div>
     <div class="row2"><button class="primary" id="mAgain">もう一回受ける</button><button class="ghost" id="mWrong">間違えた問題を解く</button></div>
     <h3 style="font-size:1rem;margin-top:4px">間違えた問題の解説（${wrong.length}問）</h3>
