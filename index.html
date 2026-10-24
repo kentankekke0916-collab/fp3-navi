@@ -457,7 +457,7 @@ function jitsugiKey(){const v=document.getElementById("jitsugi").value;return v&
 function recPlan(days){
   if(!CFG.promo) return;
   let keys,lead;
-  if(days>30){keys=["text","mondai"];lead=`試験まで${days}日あるから、今はインプットの時期。テキストと、それに対応した問題集をセットでそろえて、ミニ問題と並行して進めよう。`}
+  if(days>30){keys=["text","mondai"];lead=`試験まで${days}日あるから、今は1分野ずつ問題を解きながら覚えていく時期。解説を読んだあとに確認するテキストと、問題の量を増やすための問題集をセットでそろえておこう。`}
   else if(has("yoso")){const j=jitsugiKey();keys=["yoso"].concat(j?[j]:[]);lead=`試験まであと${days}日で直前期。本番形式の予想問題と実技対策で仕上げよう。`}
   else{keys=["mondai"];lead=`試験まであと${days}日で直前期。新しい教材に手を広げず、問題集の2周目で間違えた問題だけを解き直して仕上げよう。`}
   document.getElementById("promoPlan").innerHTML=recBox(avail(keys),lead,true);
@@ -560,10 +560,10 @@ function renderPlan(){
     return `<div class="frow"><span>${f.name}</span><span>${fmt(st)}〜${fmt(en)}</span></div>`;
   }).join("");
   out.innerHTML=`<h2>試験まで ${days}日 のプラン</h2>${verdict}
-  <div class="phase"><span class="tag">STEP 1</span><div><h3>インプット：テキストを1周</h3><div class="date">${fmt(s1)}〜${fmt(addDays(s2,-1))}</div></div>
-    <p>1分野ずつ「テキストを読む→その分野のミニ問題30問」をセットで。完璧に覚えようとせず、まず全体を1周することが大事。</p>
+  <div class="phase"><span class="tag">STEP 1</span><div><h3>1周目：問題を解きながら覚える</h3><div class="date">${fmt(s1)}〜${fmt(addDays(s2,-1))}</div></div>
+    <p>1分野ずつ「ミニ問題を解く→解説を読む→テキストの該当箇所を確認する」をくり返す。最初はわからなくて当然なので、すぐ答え合わせをして大丈夫。先に問題を見ておくと、テキストのどこが大事かがわかる。</p>
     <div class="fields">${rows}</div></div>
-  <div class="phase"><span class="tag">STEP 2</span><div><h3>演習：模擬試験と過去問</h3><div class="date">${fmt(s2)}〜${fmt(addDays(s3,-1))}</div></div>
+  <div class="phase"><span class="tag">STEP 2</span><div><h3>2周目：模擬試験と解き直し</h3><div class="date">${fmt(s2)}〜${fmt(addDays(s3,-1))}</div></div>
     <p>週1〜2回の模擬試験（60問・120分）で実力を測りながら、間違えた問題を解き直す。模擬試験で6割を超えたら公式サイトの過去問・サンプル問題と実技対策へ。ここが一番点数が伸びる時期。</p></div>
   <div class="phase"><span class="tag">STEP 3</span><div><h3>直前仕上げ：苦手つぶし</h3><div class="date">${fmt(s3)}〜${fmt(addDays(exam,-1))}</div></div>
     <p>「苦手」タブで正答率が低い分野と「間違えた問題」を集中して復習。最後にもう一度模擬試験を通しで解いて、8割を目標に。</p></div>`;
