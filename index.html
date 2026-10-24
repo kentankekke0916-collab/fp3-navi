@@ -551,6 +551,8 @@ function dogSVG(kind,mood){
 }
 
 const MAS=!!CFG.mascot;
+// 使用状況の計測（GitHub Pages版だけ GoatCounter を読み込む。読み込んでいない版では何もしない）
+function track(n){try{if(window.goatcounter&&window.goatcounter.count)window.goatcounter.count({path:"ev/"+n,title:n,event:true})}catch(e){}}
 const pick=a=>a[Math.floor(Math.random()*a.length)];
 function say(kind,mood,text){return `<div class="say"><div class="say-dog">${dogSVG(kind,mood)}</div><div class="bubble">${text}</div></div>`}
 if(MAS) document.getElementById("mascotHead").innerHTML=`<div class="duo">${dogSVG("oimo","smile")}${dogSVG("mallow","happy")}</div><p class="duo-cap">おいもくんとマシュマロくんが、合格までいっしょに応援するよ。</p>`;
@@ -561,7 +563,7 @@ function recCard(key){
   const it=CFG.promo.catalog[key]; if(!it) return "";
   const url=it.url||amzURL(it.asin);
   const inner=`<span class="k">${esc(it.label)}</span><b>${esc(it.name)}</b><span>${esc(it.text)}</span>${url?'<span class="k">Amazonで見る →</span>':'<span class="soon">リンク準備中</span>'}`;
-  return url?`<a class="item" href="${esc(url)}" target="_blank" rel="noopener sponsored">${inner}</a>`:`<div class="item">${inner}</div>`;
+  return url?`<a class="item" data-k="${key}" href="${esc(url)}" target="_blank" rel="noopener sponsored">${inner}</a>`:`<div class="item">${inner}</div>`;
 }
 function recBox(keys,lead,withNote){
   const p=CFG.promo; if(!p||!keys.length) return "";
@@ -638,7 +640,7 @@ function showTab(name){
   if(name==="quiz") renderChips();
   if(name==="mock") renderMockLast();
 }
-document.querySelectorAll(".tabs button").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.tab)));
+document.querySelectorAll(".tabs button").forEach(b=>b.addEventListener("click",()=>{track("tab-"+b.dataset.tab);showTab(b.dataset.tab)}));
 
 /* ---- 学習プラン ---- */
 const fmt=d=>`${d.getMonth()+1}/${d.getDate()}`;
@@ -706,6 +708,7 @@ chips.addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b||b.di
 document.getElementById("countChips").addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;qcount=+b.dataset.n;document.querySelectorAll("#countChips .chip").forEach(c=>c.setAttribute("aria-pressed",c===b?"true":"false"))});
 document.getElementById("startQuiz").addEventListener("click",startQuiz);
 function startQuiz(){
+  track("quiz-start-"+sel);
   const pool=sel==="all"?Q:sel==="wrong"?Q.filter(q=>stats.wrong.includes(q.id)):Q.filter(q=>q.f===sel);
   if(!pool.length){showTab("quiz");return}
   queue=shuffle(pool).slice(0,qcount).map(prep); idx=0; correct=0;
@@ -732,6 +735,7 @@ function answer(i){
   document.getElementById("nextBtn").focus();
 }
 function showResult(){
+  track("quiz-done");
   const box=document.getElementById("quizBox"), pct=Math.round(correct/queue.length*100);
   const msg=pct>=80?"この調子！本番の合格ラインは6割だから、安定して8割取れれば安心。":pct>=60?"合格ラインには届いてる。間違えた問題は「間違えた問題」から解き直そう。":"今はまだ覚える段階だから大丈夫。解説を読み返して、もう一度チャレンジしよう。";
   box.innerHTML=`<div class="qmeta"><span>今回の結果</span><span>${queue.length}問</span></div>
@@ -756,6 +760,7 @@ function renderMockLast(){
 }
 renderMockLast();
 document.getElementById("startMock").addEventListener("click",()=>{
+  track("mock-start");
   let ox=[], sa=[];
   FIELDS.forEach(f=>{
     ox=ox.concat(shuffle(Q.filter(q=>q.f===f.id&&q.t==="○×")).slice(0,5));
@@ -796,6 +801,7 @@ function renderMock(){
   const g=document.getElementById("mGo"); if(g) g.addEventListener("click",()=>finishMock(false));
 }
 function finishMock(timeout){
+  track("mock-done");
   clearInterval(timerId);
   const m=mock; mock=null;
   let score=0; const byF={};
@@ -932,7 +938,9 @@ function setMode(m){
   if(m==="gakka"){document.getElementById("panel-jitsugi").hidden=true;const cur=document.querySelector('.tabs [aria-selected="true"]');showTab(cur?cur.dataset.tab:"plan")}
   else{["plan","quiz","mock","weak"].forEach(t=>document.getElementById("panel-"+t).hidden=true);document.getElementById("panel-jitsugi").hidden=false;renderJList()}
 }
-document.querySelectorAll(".mode button").forEach(b=>b.addEventListener("click",()=>setMode(b.dataset.mode)));
+document.querySelectorAll(".mode button").forEach(b=>b.addEventListener("click",()=>{track("mode-"+b.dataset.mode);setMode(b.dataset.mode)}));
+// 教材紹介（Amazon）とnoteへのリンクのクリック数
+document.addEventListener("click",e=>{const a=e.target.closest("a.item[data-k],.cta a");if(a)track(a.dataset.k?"amazon-"+a.dataset.k:"note")});
 
 /* ---- 実技の事例 ---- */
 let jc=null;
@@ -946,6 +954,7 @@ function renderJList(){
 }
 document.getElementById("jList").addEventListener("click",e=>{const b=e.target.closest(".case");if(b)startCase(b.dataset.c)});
 function startCase(id){
+  track("jitsugi-start-"+id);
   const c=JCASES.find(x=>x.id===id); jc={c,i:0,ok:0};
   document.getElementById("jIntro").hidden=true;
   document.getElementById("promoJ").innerHTML="";
@@ -975,6 +984,7 @@ function answerJ(i){
   document.getElementById("jNext").focus();
 }
 function resultJ(){
+  track("jitsugi-done");
   const c=jc.c,n=c.qs.length,ok=jc.ok,pct=Math.round(ok/n*100);
   const r=stats.jc[c.id]||{best:0,n:0}; r.best=Math.max(r.best,ok); r.n++; stats.jc[c.id]=r; saveStats();
   const next=JCASES[(JCASES.indexOf(c)+1)%JCASES.length];
