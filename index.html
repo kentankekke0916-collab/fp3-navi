@@ -537,10 +537,8 @@ function dogSVG(kind,mood){
   const mouth=mood==="cheer"||mood==="happy"
     ?`<path d="M53 61.5 Q58 69 63 61.5Z" fill="#ee8b86" stroke="${P.line}" stroke-width="2" stroke-linejoin="round"/>`
     :`<path d="M54.5 61 Q56.5 63.5 58 61 Q59.5 63.5 61.5 61" fill="none" stroke="${P.line}" stroke-width="2" stroke-linecap="round"/>`;
-  // cheer：両手を上げてバンザイ（丸いもこもこだとしっぽに見えるので、短い腕＋肉球つきの手で描く）
-  const arm=(x1,y1,x2,y2)=>`<path d="M${x1} ${y1} L${x2} ${y2}" stroke="${P.line}" stroke-width="12" stroke-linecap="round"/><path d="M${x1} ${y1} L${x2} ${y2}" stroke="${P.fur}" stroke-width="7" stroke-linecap="round"/>
-      <ellipse cx="${x2}" cy="${y2-2}" rx="5.4" ry="5" fill="${P.fur}" stroke="${P.line}" stroke-width="2.6"/><ellipse cx="${x2}" cy="${y2-1.4}" rx="2.1" ry="1.7" fill="#f5a7a2"/>`;
-  const paw=mood==="cheer"?arm(48,86,40,76)+arm(72,86,80,76):"";
+  // cheer：両手を胸の前でぎゅっと上げて「やったー」（腕も体と同じもこもこで描く。棒の腕や1つだけの丸はしっぽに見えて違和感があった）
+  const paw=mood==="cheer"?part(curl(47,86,3.5,7,3.8).concat(curl(44,80,4,8,4)),P.fur)+part(curl(69,86,3.5,7,3.8).concat(curl(72,80,4,8,4)),P.fur):"";
   return `<svg viewBox="0 0 120 124" class="dog dog-${kind}" role="img" aria-label="${kind==="oimo"?"おいもくん":"マシュマロくん"}">
     <ellipse cx="62" cy="117" rx="36" ry="5" fill="#d9952f" opacity=".22"/>
     ${part(tail,P.fur)}${part(body,P.fur)}${paws}
