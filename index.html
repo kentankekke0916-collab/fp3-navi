@@ -516,7 +516,7 @@ const Q = [
  {f:"sozoku",t:"○×",q:"贈与税の申告期間は、贈与を受けた年の翌年2月16日から3月15日までである。",o:["○","×"],a:1,e:"誤り。贈与税の申告期間は翌年2月1日から3月15日まで。所得税の確定申告（2月16日から）と始まりの日が違うので注意。"}
 ];
 Q.forEach((q,i)=>q.id=i);
-const CFG = {"mascot": true, "promo": {"tag": "kentankekke-22", "disclosure": "Amazonのアソシエイトとして、当サイトの運営者は適格販売により収入を得ています。", "catalog": {"text": {"label": "テキスト", "name": "みんなが欲しかった！ FPの教科書3級 2026-2027年版（TAC出版）", "text": "オールカラーの図解で6分野を1冊で学べる定番テキスト。学科・実技の両方に対応していて、動画とアプリ、赤シートもついてる。", "asin": "", "url": "https://link.amazon/B0e4TVOTc"}, "mondai": {"label": "問題集", "name": "みんなが欲しかった！ FPの問題集3級 2026-2027年版（TAC出版）", "text": "同じシリーズの教科書に完全対応した問題集。頻出の過去問とポイント整理で、学科に加えてFP協会・きんざいの実技にも対応。CBT形式の模擬試験プログラムつき。", "asin": "", "url": "https://link.amazon/B0ciDy6GL"}, "yoso": {"label": "直前対策", "name": "FP3級の直前予想問題集", "text": "本番形式の予想問題が数回分ついているもの。", "asin": ""}, "jitsugi_fp": {"label": "実技（日本FP協会）", "name": "資産設計提案業務の問題集", "text": "FP協会の実技に対応した問題集。", "asin": ""}, "jitsugi_kojin": {"label": "実技（きんざい）", "name": "個人資産相談業務の問題集", "text": "きんざいの個人資産相談業務に対応した問題集。", "asin": ""}, "jitsugi_hoken": {"label": "実技（きんざい）", "name": "保険顧客資産相談業務の問題集", "text": "きんざいの保険顧客資産相談業務に対応した問題集。", "asin": ""}}, "note": {"title": "勉強法はnoteでくわしく解説中", "text": "このツールの使い方と、FP3級に最短で受かるための勉強スケジュールをまとめてるよ。", "link": "noteを読む", "url": ""}}};
+const CFG = {"ed": "original", "mascot": true, "promo": {"tag": "kentankekke-22", "disclosure": "Amazonのアソシエイトとして、当サイトの運営者は適格販売により収入を得ています。", "catalog": {"text": {"label": "テキスト", "name": "みんなが欲しかった！ FPの教科書3級 2026-2027年版（TAC出版）", "text": "オールカラーの図解で6分野を1冊で学べる定番テキスト。学科・実技の両方に対応していて、動画とアプリ、赤シートもついてる。", "asin": "", "url": "https://link.amazon/B0e4TVOTc"}, "mondai": {"label": "問題集", "name": "みんなが欲しかった！ FPの問題集3級 2026-2027年版（TAC出版）", "text": "同じシリーズの教科書に完全対応した問題集。頻出の過去問とポイント整理で、学科に加えてFP協会・きんざいの実技にも対応。CBT形式の模擬試験プログラムつき。", "asin": "", "url": "https://link.amazon/B0ciDy6GL"}, "yoso": {"label": "直前対策", "name": "FP3級の直前予想問題集", "text": "本番形式の予想問題が数回分ついているもの。", "asin": ""}, "jitsugi_fp": {"label": "実技（日本FP協会）", "name": "資産設計提案業務の問題集", "text": "FP協会の実技に対応した問題集。", "asin": ""}, "jitsugi_kojin": {"label": "実技（きんざい）", "name": "個人資産相談業務の問題集", "text": "きんざいの個人資産相談業務に対応した問題集。", "asin": ""}, "jitsugi_hoken": {"label": "実技（きんざい）", "name": "保険顧客資産相談業務の問題集", "text": "きんざいの保険顧客資産相談業務に対応した問題集。", "asin": ""}}, "note": {"title": "勉強法はnoteでくわしく解説中", "text": "このツールの使い方と、FP3級に最短で受かるための勉強スケジュールをまとめてるよ。", "link": "noteを読む", "url": ""}}};
 /* おいもくん・マシュマロくん（手描き風のデフォルメSVG）。kind: "oimo" | "mallow"、mood: "smile" | "happy" | "cheer" */
 function dogSVG(kind,mood){
   const P=kind==="oimo"
@@ -552,7 +552,7 @@ function dogSVG(kind,mood){
 
 const MAS=!!CFG.mascot;
 // 使用状況の計測（GitHub Pages版だけ GoatCounter を読み込む。読み込んでいない版では何もしない）
-function track(n){try{if(window.goatcounter&&window.goatcounter.count)window.goatcounter.count({path:"ev/"+n,title:n,event:true})}catch(e){}}
+function track(n){try{if(window.goatcounter&&window.goatcounter.count)window.goatcounter.count({path:"ev/"+(CFG.ed||"x")+"/"+n,title:(CFG.ed||"")+" "+n,event:true})}catch(e){}}
 const pick=a=>a[Math.floor(Math.random()*a.length)];
 function say(kind,mood,text){return `<div class="say"><div class="say-dog">${dogSVG(kind,mood)}</div><div class="bubble">${text}</div></div>`}
 if(MAS) document.getElementById("mascotHead").innerHTML=`<div class="duo">${dogSVG("oimo","smile")}${dogSVG("mallow","happy")}</div><p class="duo-cap">おいもくんとマシュマロくんが、合格までいっしょに応援するよ。</p>`;

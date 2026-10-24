@@ -1,0 +1,987 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="SHEmoneyのマネーメイト向けFP3級学習ツール。学習プラン、6分野180問のオリジナル問題、模擬試験、実技の事例問題がスマホで使えます。">
+<meta name="robots" content="noindex">
+<meta property="og:title" content="FP3級 合格ナビ">
+<meta property="og:description" content="マネーメイトのためのFP3級学習ツール。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kentankekke0916-collab.github.io/fp3-navi/shemoney/">
+<meta name="theme-color" content="#1d6b61">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="FP3級合格ナビ">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font-size:14px}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>FP3級 合格ナビ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<style>
+/* Layout: 1カラムのスマホ優先。上に試験の要点、下に4つのタブ（プラン／ミニ問題／模擬試験／苦手チェック） */
+:root{
+  --bg:#f6f7f4; --surface:#ffffff; --ink:#1f2a2b; --muted:#5f6b6a; --line:#dde2dc;
+  --accent:#1d6b61; --accent-soft:#e2efeb; --accent-ink:#ffffff;
+  --gold:#b7822b; --ok:#2f7d4f; --ok-soft:#e3f2e8; --ng:#b4473a; --ng-soft:#f7e5e2;
+  --f-display:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Hiragino Sans",sans-serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Sans","Noto Sans JP","Yu Gothic",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#141a1a; --surface:#1c2423; --ink:#e7ecea; --muted:#9fadab; --line:#2e3a39;
+  --accent:#5fb8a8; --accent-soft:#1f3532; --accent-ink:#0f1716;
+  --gold:#d9a650; --ok:#6cc08c; --ok-soft:#1d3226; --ng:#e48a7e; --ng-soft:#3a2522; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141a1a; --surface:#1c2423; --ink:#e7ecea; --muted:#9fadab; --line:#2e3a39;
+  --accent:#5fb8a8; --accent-soft:#1f3532; --accent-ink:#0f1716;
+  --gold:#d9a650; --ok:#6cc08c; --ok-soft:#1d3226; --ng:#e48a7e; --ng-soft:#3a2522; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.7}
+.wrap{max-width:640px;margin:0 auto;padding-inline:16px;padding-block:20px 48px;display:grid;gap:20px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.35}
+h1{font-size:1.6rem}
+h2{font-size:1.15rem}
+.eyebrow{font-size:.75rem;letter-spacing:.12em;color:var(--accent);font-weight:700}
+.lead{color:var(--muted);margin:6px 0 0}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.fact{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px;min-width:0}
+.fact b{display:block;font-family:var(--f-display);font-size:1.25rem;font-variant-numeric:tabular-nums}
+.fact span{font-size:.75rem;color:var(--muted)}
+.note{font-size:.8rem;color:var(--muted);margin:8px 0 0}
+.tabs{display:flex;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:4px;position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+.tabs button{flex:1;border:0;background:transparent;color:var(--muted);font:inherit;font-size:.88rem;font-weight:700;padding:10px 2px;border-radius:9px;cursor:pointer;min-width:0}
+.tabs button[aria-selected="true"]{background:var(--accent);color:var(--accent-ink)}
+button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.panel{display:grid;gap:16px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:12px;min-width:0}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form label{display:grid;gap:4px;font-size:.85rem;font-weight:700;min-width:0}
+.form .full{grid-column:1/-1}
+input,select{font:inherit;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);width:100%}
+.verdict{border-radius:10px;padding:12px 14px;font-weight:500}
+.verdict.ok{background:var(--ok-soft)} .verdict.warn{background:var(--ng-soft)}
+.verdict b{font-family:var(--f-display)}
+.phase{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;padding:12px 0;border-top:1px solid var(--line)}
+.phase:first-of-type{border-top:0;padding-top:0}
+.phase .tag{font-size:.72rem;font-weight:700;letter-spacing:.06em;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:2px 10px;align-self:start;white-space:nowrap}
+.phase h3{font-size:1rem}
+.phase .date{font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.phase p{grid-column:1/-1;margin:0;font-size:.9rem}
+.fields{grid-column:1/-1;display:grid;gap:4px;margin-top:4px}
+.frow{display:flex;justify-content:space-between;gap:8px;font-size:.85rem;border-bottom:1px dashed var(--line);padding-bottom:4px}
+.frow span:last-child{color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-size:.85rem;padding:6px 12px;border-radius:999px;cursor:pointer}
+.chip[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);color:var(--accent);font-weight:700}
+.chip:disabled{opacity:.45;cursor:default}
+.sub{font-size:.8rem;font-weight:700;color:var(--muted)}
+.qmeta{display:flex;justify-content:space-between;gap:8px;font-size:.8rem;color:var(--muted)}
+.qtext{font-size:1.02rem;font-weight:500}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;padding:12px 14px;border-radius:10px;cursor:pointer}
+.opt.right{border-color:var(--ok);background:var(--ok-soft)}
+.opt.wrong{border-color:var(--ng);background:var(--ng-soft)}
+.opt.picked{border-color:var(--accent);background:var(--accent-soft);font-weight:700}
+.opt:disabled{cursor:default}
+.ox{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ox .opt{text-align:center;font-family:var(--f-display);font-size:1.5rem;padding:10px}
+.explain{background:var(--accent-soft);border-radius:10px;padding:12px 14px;font-size:.9rem}
+.explain b{color:var(--accent)}
+.primary{border:0;background:var(--accent);color:var(--accent-ink);font:inherit;font-weight:700;padding:12px;border-radius:10px;cursor:pointer;width:100%}
+.ghost{border:1px solid var(--line);background:transparent;color:var(--ink);font:inherit;padding:10px;border-radius:10px;cursor:pointer;width:100%}
+.danger{border:0;background:var(--ng);color:var(--accent-ink);font:inherit;font-weight:700;padding:12px;border-radius:10px;cursor:pointer;width:100%}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.score{font-family:var(--f-display);font-size:2.2rem;font-variant-numeric:tabular-nums;line-height:1.2}
+.pass{display:inline-block;font-family:var(--f-display);font-weight:700;padding:2px 12px;border-radius:999px;font-size:.95rem}
+.pass.ok{background:var(--ok-soft);color:var(--ok)} .pass.ng{background:var(--ng-soft);color:var(--ng)}
+.bars{display:grid;gap:10px}
+.bar{display:grid;grid-template-columns:5.5em 1fr 4.5em;gap:8px;align-items:center;font-size:.85rem}
+.track{height:10px;background:var(--line);border-radius:999px;overflow:hidden}
+.fill{height:100%;background:var(--accent);border-radius:999px}
+.fill.low{background:var(--ng)}
+.bar .num{text-align:right;font-variant-numeric:tabular-nums;color:var(--muted)}
+.timer{display:flex;justify-content:space-between;align-items:center;gap:8px;font-variant-numeric:tabular-nums}
+.timer b{font-family:var(--f-display);font-size:1.3rem}
+.timer.low b{color:var(--ng)}
+.grid60{display:grid;grid-template-columns:repeat(10,1fr);gap:4px}
+.grid60 button{font:inherit;font-size:.72rem;padding:5px 0;border:1px solid var(--line);background:var(--bg);color:var(--muted);border-radius:6px;cursor:pointer;font-variant-numeric:tabular-nums;min-width:0}
+.grid60 button.done{background:var(--accent-soft);color:var(--accent);border-color:var(--accent-soft);font-weight:700}
+.grid60 button.cur{outline:2px solid var(--accent);outline-offset:-1px}
+.review{display:grid;gap:10px}
+.ritem{border-top:1px solid var(--line);padding-top:10px;display:grid;gap:6px;font-size:.9rem}
+.ritem .qmeta{font-size:.75rem}
+.ans{font-size:.85rem}
+.ans .ng{color:var(--ng);font-weight:700} .ans .ok{color:var(--ok);font-weight:700}
+.links{display:grid;gap:8px}
+.links a{color:var(--accent);font-weight:700;text-decoration:none;border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:block}
+.links a span{display:block;font-weight:400;font-size:.8rem;color:var(--muted)}
+.promo{display:grid;gap:10px}
+.promo-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.pr{font-size:.7rem;font-weight:700;letter-spacing:.08em;border:1px solid var(--muted);color:var(--muted);border-radius:4px;padding:0 6px}
+.items{display:grid;gap:8px}
+.item{display:grid;gap:2px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;color:var(--ink);text-decoration:none}
+a.item:hover{border-color:var(--accent)}
+.item .k{font-size:.72rem;font-weight:700;color:var(--accent);letter-spacing:.06em}
+.item b{font-family:var(--f-display)}
+.item span{font-size:.82rem;color:var(--muted)}
+.item .soon{font-size:.72rem;color:var(--gold);font-weight:700}
+.cta{background:var(--accent-soft);border-radius:12px;padding:14px;display:grid;gap:6px}
+.cta b{font-family:var(--f-display)}
+.cta a{color:var(--accent);font-weight:700}
+.foot{font-size:.75rem;color:var(--muted);line-height:1.6;margin:0}
+@media (max-width:420px){.form{grid-template-columns:1fr}.facts .fact b{font-size:1.05rem}.tabs button{font-size:.8rem}}
+@media (prefers-reduced-motion:no-preference){.fill{transition:width .4s ease}}
+.mode{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mode button{border:2px solid var(--line);background:var(--surface);color:var(--muted);font:inherit;font-weight:700;padding:8px 6px;border-radius:12px;cursor:pointer;line-height:1.4;min-width:0}
+.mode button small{display:block;font-weight:400;font-size:.72rem}
+.mode button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+.cases{display:grid;gap:8px}
+.case{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;text-align:left;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;padding:12px;border-radius:12px;cursor:pointer;min-width:0}
+.case:hover{border-color:var(--accent)}
+.case .k{font-size:.72rem;font-weight:700;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:2px 10px;white-space:nowrap}
+.case b{font-family:var(--f-display);font-size:.95rem;line-height:1.4}
+.case .best{font-size:.75rem;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+.case .best.ok{color:var(--ok);font-weight:700}
+.mat{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--bg);min-width:0}
+.mat summary{font-weight:700;color:var(--accent);cursor:pointer}
+.mat p{margin:8px 0 0;font-size:.9rem}
+.tbl{overflow-x:auto;margin-top:8px;-webkit-overflow-scrolling:touch}
+.tbl table{border-collapse:collapse;font-size:.82rem;white-space:nowrap;background:var(--surface)}
+.tbl th,.tbl td{border:1px solid var(--line);padding:5px 8px;text-align:right;font-variant-numeric:tabular-nums}
+.tbl th{text-align:left;font-weight:700}
+.tbl thead th{text-align:center;background:var(--accent-soft)}
+.fam{margin:8px 0 0;padding-left:1.3em;font-size:.9rem}
+h1 a{color:inherit;text-decoration:none}
+
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">マネーメイトのための FP3級ツール</div>
+    <h1><a href="#" id="home" aria-label="トップ画面に戻る">FP3級 合格ナビ</a></h1>
+    <p class="lead">試験日から逆算した学習プランを作って、6分野180問のオリジナル問題と本番形式の模擬試験で苦手をつぶす。毎日ちょっとずつ使う前提のツールだよ。</p>
+    <div id="mascotHead"></div>
+    <div class="facts" id="facts">
+      <div class="fact"><b>60問</b><span>学科（○×30＋三択30）</span></div>
+      <div class="fact"><b>120分</b><span>学科の試験時間</span></div>
+      <div class="fact"><b>36点〜</b><span>合格ライン（6割）</span></div>
+    </div>
+    <p class="note">学科と実技の両方に合格して FP3級。実技は日本FP協会（資産設計提案業務）か、きんざい（個人資産相談業務／保険顧客資産相談業務）から選ぶ。試験はCBT方式で、日程は各実施団体の公式サイトで確認してね。</p>
+  </header>
+
+  <div class="mode" role="group" aria-label="試験の種類">
+    <button id="mode-gakka" aria-pressed="true" data-mode="gakka">学科<small>6分野180問・模擬試験</small></button>
+    <button id="mode-jitsugi" aria-pressed="false" data-mode="jitsugi">実技<small>資料を読む事例問題</small></button>
+  </div>
+
+  <nav class="tabs" role="tablist">
+    <button role="tab" id="tab-plan" aria-selected="true" data-tab="plan">プラン</button>
+    <button role="tab" id="tab-quiz" aria-selected="false" data-tab="quiz">ミニ問題</button>
+    <button role="tab" id="tab-mock" aria-selected="false" data-tab="mock">模擬試験</button>
+    <button role="tab" id="tab-weak" aria-selected="false" data-tab="weak">苦手</button>
+  </nav>
+
+  <!-- 学習プラン -->
+  <section class="panel" id="panel-plan">
+    <div class="box">
+      <h2>あなたの条件</h2>
+      <form class="form" id="planForm">
+        <label class="full">試験日<input type="date" id="examDate"></label>
+        <label>平日の勉強時間<select id="weekday">
+          <option value="15">15分</option><option value="30" selected>30分</option><option value="45">45分</option><option value="60">1時間</option><option value="90">1.5時間</option><option value="120">2時間</option></select></label>
+        <label>休日の勉強時間<select id="weekend">
+          <option value="30">30分</option><option value="60">1時間</option><option value="90">1.5時間</option><option value="120" selected>2時間</option><option value="180">3時間</option><option value="240">4時間</option></select></label>
+        <label class="full">お金の勉強の経験<select id="level">
+          <option value="beginner" selected>ほぼはじめて（目安100時間）</option>
+          <option value="some">SHEmoneyの講座などで基礎はある（目安70時間）</option>
+          <option value="retry">一度FP3級を勉強した・再挑戦（目安50時間）</option></select></label>
+        <label class="full">実技の科目<select id="jitsugi">
+          <option value="">まだ決めていない</option>
+          <option value="fp">日本FP協会：資産設計提案業務</option>
+          <option value="kojin">きんざい：個人資産相談業務</option>
+          <option value="hoken">きんざい：保険顧客資産相談業務</option></select></label>
+      </form>
+    </div>
+    <div class="box" id="planOut" aria-live="polite"></div>
+    <div id="promoPlan"></div>
+  </section>
+
+  <!-- ミニ問題 -->
+  <section class="panel" id="panel-quiz" hidden>
+    <div class="box" id="quizSetup">
+      <h2>どの分野をやる？</h2>
+      <div class="chips" id="fieldChips"></div>
+      <div class="sub">問題数</div>
+      <div class="chips" id="countChips">
+        <button class="chip" data-n="5" aria-pressed="true">5問</button>
+        <button class="chip" data-n="10" aria-pressed="false">10問</button>
+        <button class="chip" data-n="30" aria-pressed="false">30問</button>
+      </div>
+      <button class="primary" id="startQuiz">はじめる</button>
+      <p class="foot">1問ずつ答え合わせと解説が出るモード。間違えた問題は「間違えた問題」から何度でも解き直せる（正解すればリストから外れる）。記録はこの端末のブラウザだけに保存されるよ。</p>
+    </div>
+    <div class="box" id="quizBox" hidden aria-live="polite"></div>
+    <div id="promoQuiz"></div>
+  </section>
+
+  <!-- 模擬試験 -->
+  <section class="panel" id="panel-mock" hidden>
+    <div class="box" id="mockIntro">
+      <h2>本番形式の模擬試験</h2>
+      <p style="margin:0">本番の学科と同じく、○×30問→三択30問の60問を120分で解く。各分野10問ずつ、180問の中から毎回ランダムに出題されるよ。答え合わせは最後にまとめて。</p>
+      <button class="primary" id="startMock">模擬試験をはじめる（60問・120分）</button>
+      <p class="foot" id="mockLast"></p>
+    </div>
+    <div class="box" id="mockBox" hidden></div>
+    <div class="box">
+      <h2>公式の過去問・サンプル問題</h2>
+      <p style="margin:0;font-size:.9rem">模擬試験で6割を安定して超えたら、実施団体が公開している問題で仕上げよう。問題の著作権は各団体にあるので、このツールには載せず公式サイトで解く形にしているよ。</p>
+      <div class="links">
+        <a href="https://www.jafp.or.jp/" target="_blank" rel="noopener">日本FP協会<span>学科・実技（資産設計提案業務）の試験情報</span></a>
+        <a href="https://www.kinzai.or.jp/" target="_blank" rel="noopener">金融財政事情研究会（きんざい）<span>学科・実技（個人資産相談業務／保険顧客資産相談業務）の試験情報</span></a>
+      </div>
+    </div>
+    <div id="promoMock"></div>
+  </section>
+
+  <!-- 苦手チェック -->
+  <section class="panel" id="panel-weak" hidden>
+    <div class="box">
+      <h2>分野別の正答率</h2>
+      <div class="bars" id="bars"></div>
+      <div id="weakAdvice"></div>
+      <div id="resetArea"><button class="ghost" id="resetStats">記録をリセットする</button></div>
+    </div>
+    <div id="promoWeak"></div>
+  </section>
+
+  <!-- 実技 -->
+  <section class="panel" id="panel-jitsugi" hidden>
+    <div class="box" id="jIntro">
+      <h2>実技：資産設計提案業務（日本FP協会）</h2>
+      <p style="margin:0;font-size:.9rem">キャッシュフロー表や保険証券、家系図などの資料を読んで答える事例形式。本番は三択20問を60分で解いて、100点満点中60点以上で合格。学科で覚えた知識を「資料から数字を拾って計算する」練習をしよう。</p>
+      <div class="cases" id="jList"></div>
+      <p class="foot" id="jNote">事例はすべてオリジナル。学科の1周目が終わった分野から解くのがおすすめ。</p>
+    </div>
+    <div class="box" id="jBox" hidden></div>
+    <div id="promoJ"></div>
+  </section>
+
+  <p class="foot">問題はすべてオリジナルで、2026年10月時点の制度にもとづいて作成。税制や社会保険は法改正が多いので、受験する回の法令基準日を各実施団体の公式情報で確認してね。合格に必要な勉強時間は一般的な目安で、個人差があるよ。</p>
+</div>
+
+<script>
+const FIELDS = [
+  {id:"life", name:"ライフプランニング", short:"ライフ", w:1.0, tip:"6つの係数と公的年金・社会保険が中心。身近な話が多いので最初に入るのがおすすめ。"},
+  {id:"risk", name:"リスク管理", short:"保険", w:0.9, tip:"生命保険・損害保険のしくみ。自賠責や地震保険など数字で覚える論点と、保険金にかかる税金が狙われやすい。"},
+  {id:"kinyu", name:"金融資産運用", short:"金融", w:1.0, tip:"預金・債券・株式・投資信託・NISA。SHEmoneyで学んだ内容が一番活きる分野。PERなどの計算は式ごと覚えよう。"},
+  {id:"tax", name:"タックスプランニング", short:"税金", w:1.2, tip:"10種類の所得と所得控除、損益通算。計算問題が出るので時間を多めに取ろう。"},
+  {id:"fudosan", name:"不動産", short:"不動産", w:1.1, tip:"登記・借地借家法・建ぺい率と容積率・不動産の税金。数字が多いので表にまとめて覚えると効く。"},
+  {id:"sozoku", name:"相続・事業承継", short:"相続", w:1.0, tip:"法定相続分と相続税・贈与税の基本。家系図を描きながら解くと一気にわかる。"}
+];
+
+const Q = [
+ // ===== ライフプランニング =====
+ {f:"life",t:"三択",q:"今ある100万円を年利2%の複利で10年運用したら、いくらになるか。このとき使う係数はどれ？",o:["終価係数","現価係数","資本回収係数"],a:0,e:"今の金額を将来の金額に換算するのは終価係数。逆に、将来の目標額のために今いくら必要かを求めるのが現価係数だよ。"},
+ {f:"life",t:"三択",q:"10年後に300万円を貯めたい。毎年いくら積み立てればいいかを求める係数はどれ？",o:["年金終価係数","減債基金係数","年金現価係数"],a:1,e:"目標額から毎年の積立額を逆算するのは減債基金係数。毎年の積立額から将来の合計を出すのが年金終価係数で、この2つはセットで覚えよう。"},
+ {f:"life",t:"三択",q:"老後に毎年120万円を20年間受け取りたい。そのために退職時点でいくら必要かを求める係数はどれ？",o:["年金現価係数","年金終価係数","減債基金係数"],a:0,e:"一定額を一定期間受け取るために今必要な元本を求めるのは年金現価係数。"},
+ {f:"life",t:"三択",q:"借り入れた住宅ローンの毎年の返済額や、手元の元本を取り崩すときの毎年の受取額を求める係数はどれ？",o:["現価係数","資本回収係数","減債基金係数"],a:1,e:"今ある元本から毎年の受取額（返済額）を求めるのは資本回収係数。年金現価係数と逆の関係だよ。"},
+ {f:"life",t:"三択",q:"年利6%で運用した場合、元本が約2倍になるまでにかかるおおよその年数は？（72の法則）",o:["約6年","約12年","約18年"],a:1,e:"72÷6＝12年。72÷金利（%）で、お金が2倍になる年数のめやすがわかる。"},
+ {f:"life",t:"三択",q:"国民年金の第1号被保険者に当てはまるのはどれ？",o:["会社員・公務員","20歳以上60歳未満の自営業者や学生など","会社員に扶養されている配偶者"],a:1,e:"第1号は自営業者・学生など、第2号は会社員・公務員、第3号は第2号に扶養される20歳以上60歳未満の配偶者。"},
+ {f:"life",t:"三択",q:"老齢基礎年金を受け取るために必要な受給資格期間は、最低何年？",o:["10年","20年","25年"],a:0,e:"保険料納付済期間・免除期間・合算対象期間を合わせて10年以上必要。2017年に25年から短縮された。"},
+ {f:"life",t:"三択",q:"1962年4月2日以降生まれの人が老齢基礎年金を繰上げ受給した場合、繰り上げた1か月あたりの減額率は？",o:["0.4%","0.5%","0.7%"],a:0,e:"繰上げは1か月0.4%減額（最大60か月で24%減）。繰下げは1か月0.7%増額。"},
+ {f:"life",t:"三択",q:"会社を退職した後、健康保険の任意継続被保険者として加入できる期間は最長何年？",o:["1年","2年","3年"],a:1,e:"最長2年。退職前に継続して2か月以上加入していて、退職日の翌日から20日以内に申し出る必要がある。保険料は原則全額自己負担。"},
+ {f:"life",t:"三択",q:"公的介護保険の第2号被保険者に当てはまるのはどれ？",o:["40歳以上65歳未満の医療保険加入者","65歳以上の人","20歳以上40歳未満の人"],a:0,e:"第1号は65歳以上、第2号は40歳以上65歳未満の医療保険加入者。第2号は特定疾病が原因の場合に限ってサービスを受けられる。"},
+ {f:"life",t:"三択",q:"遺族基礎年金を受け取れる遺族はどれ？",o:["子のある配偶者または子","子のない配偶者","死亡した人の父母"],a:0,e:"遺族基礎年金は「子のある配偶者」か「子」だけ。子は原則18歳到達年度の末日までが対象。"},
+ {f:"life",t:"三択",q:"日本学生支援機構の貸与型奨学金のうち、第一種奨学金の特徴はどれ？",o:["無利息","利息付き（在学中は無利息）","返済不要"],a:0,e:"第一種は無利息、第二種は利息付き（在学中は無利息）。返済不要なのは給付型奨学金。"},
+ {f:"life",t:"三択",q:"住宅金融支援機構と民間金融機関が提携する「フラット35」の金利タイプはどれ？",o:["全期間固定金利","変動金利","固定期間選択型"],a:0,e:"フラット35は最長35年の全期間固定金利。金利は取扱金融機関ごとに異なる。"},
+ {f:"life",t:"三択",q:"住宅ローンの繰上げ返済で、同じ金額を返済した場合に利息の軽減効果が大きいのはどれ？",o:["期間短縮型","返済額軽減型","どちらも同じ"],a:0,e:"期間短縮型のほうが利息軽減効果は大きい。返済額軽減型は毎月の返済額が下がるので家計にはやさしい。"},
+ {f:"life",t:"三択",q:"労働者災害補償保険（労災保険）の保険料は、誰が負担する？",o:["全額事業主","事業主と労働者で折半","全額労働者"],a:0,e:"労災保険の保険料は全額事業主負担。雇用保険は事業主と労働者で負担し、健康保険・厚生年金は原則折半。"},
+ {f:"life",t:"○×",q:"老齢基礎年金を繰下げ受給すると、繰り下げた1か月あたり0.7%年金額が増える。",o:["○","×"],a:0,e:"正しい。最大75歳まで繰り下げられて、その場合は0.7%×120か月＝84%の増額。繰上げは1か月あたり0.4%の減額だよ。"},
+ {f:"life",t:"○×",q:"健康保険の傷病手当金は、仕事を休んだ初日から支給される。",o:["○","×"],a:1,e:"誤り。連続3日間の待期期間のあと、4日目から支給される。支給期間は通算1年6か月。"},
+ {f:"life",t:"○×",q:"借入額・金利・返済期間が同じなら、元金均等返済は元利均等返済よりも総返済額が少なくなる。",o:["○","×"],a:0,e:"正しい。元金均等返済は元金が早く減るぶん利息が少なくなる。そのかわり返済の初めのころは毎回の返済額が大きいのがデメリット。"},
+ {f:"life",t:"○×",q:"高額療養費制度は、同じ月に支払った医療費の自己負担額が上限額を超えたとき、超えた分が支給される制度である。",o:["○","×"],a:0,e:"正しい。上限額は年齢や所得によって決まる。入院時の食事代や差額ベッド代は対象外。"},
+ {f:"life",t:"○×",q:"健康保険の被扶養者になるには、原則として年間収入が130万円未満であることが必要である。",o:["○","×"],a:0,e:"正しい。60歳以上や障害者は180万円未満。同居の場合は被保険者の収入の2分の1未満であることも条件。"},
+ {f:"life",t:"○×",q:"国民年金の保険料は、前納しても割引は受けられない。",o:["○","×"],a:1,e:"誤り。前納すると割引を受けられる。6か月・1年・2年分の前納ができ、口座振替なら割引額が大きくなる。"},
+ {f:"life",t:"○×",q:"国民年金の第3号被保険者は、自分で国民年金保険料を納める必要がある。",o:["○","×"],a:1,e:"誤り。第3号被保険者の保険料は、配偶者が加入する厚生年金制度全体で負担しているので、本人の納付は不要。"},
+ {f:"life",t:"○×",q:"学生納付特例の期間は、追納しなければ老齢基礎年金の額には反映されない。",o:["○","×"],a:0,e:"正しい。受給資格期間には算入されるけど、年金額には反映されない。10年以内なら追納できる。"},
+ {f:"life",t:"○×",q:"後期高齢者医療制度の対象者は、原則として70歳以上の人である。",o:["○","×"],a:1,e:"誤り。原則75歳以上。一定の障害がある65歳以上75歳未満の人も、認定を受ければ対象になる。"},
+ {f:"life",t:"○×",q:"雇用保険の基本手当を受け取るには、原則として離職の日以前2年間に被保険者期間が通算12か月以上必要である。",o:["○","×"],a:0,e:"正しい。倒産・解雇などによる離職（特定受給資格者）の場合は、離職の日以前1年間に通算6か月以上でよい。"},
+ {f:"life",t:"○×",q:"住宅ローンの元利均等返済は、毎回の返済額（元金と利息の合計）が一定である。",o:["○","×"],a:0,e:"正しい。最初は利息の割合が大きく、返済が進むほど元金の割合が増えていく。"},
+ {f:"life",t:"○×",q:"財形住宅貯蓄は、年齢に関係なく誰でも利用できる。",o:["○","×"],a:1,e:"誤り。財形住宅貯蓄と財形年金貯蓄は、契約時に55歳未満の勤労者が対象。一般財形貯蓄には年齢制限がない。"},
+ {f:"life",t:"○×",q:"キャッシュフロー表の可処分所得は「年収−（所得税＋住民税＋社会保険料）」で計算する。",o:["○","×"],a:0,e:"正しい。生命保険料や住宅ローンの返済額は差し引かない点がひっかけになりやすい。"},
+ {f:"life",t:"○×",q:"個人のバランスシートでは、資産を購入したときの価格で記入する。",o:["○","×"],a:1,e:"誤り。バランスシートの資産は作成時点の時価で記入する。"},
+ {f:"life",t:"○×",q:"iDeCo（個人型確定拠出年金）の掛金は、生命保険料控除の対象になる。",o:["○","×"],a:1,e:"誤り。iDeCoの掛金は小規模企業共済等掛金控除の対象で、全額が所得控除になるので、所得税・住民税が軽くなる。運用益も非課税。"},
+
+ // ===== リスク管理 =====
+ {f:"risk",t:"三択",q:"地震保険の保険金額は、主契約である火災保険の保険金額の何%の範囲で設定する？",o:["10%〜30%","30%〜50%","50%〜80%"],a:1,e:"30%〜50%の範囲。さらに上限が建物5,000万円・家財1,000万円と決まっているよ。"},
+ {f:"risk",t:"三択",q:"自賠責保険で、被害者1人あたりの死亡による損害の支払限度額はいくら？",o:["1,000万円","3,000万円","5,000万円"],a:1,e:"死亡は3,000万円、傷害は120万円、後遺障害は程度に応じて最高4,000万円。"},
+ {f:"risk",t:"三択",q:"生命保険料のうち、付加保険料の計算の基礎となる予定基礎率はどれ？",o:["予定死亡率","予定利率","予定事業費率"],a:2,e:"純保険料は予定死亡率と予定利率、付加保険料は予定事業費率をもとに計算する。"},
+ {f:"risk",t:"三択",q:"一定期間内に死亡したときだけ保険金が支払われ、満期保険金がなく、保険料が割安な保険はどれ？",o:["定期保険","養老保険","終身保険"],a:0,e:"定期保険は掛け捨て型で保険料が割安。満期保険金はなく、解約返戻金もほとんどないかゼロ。"},
+ {f:"risk",t:"三択",q:"死亡保険金と満期保険金が同じ金額の保険はどれ？",o:["終身保険","養老保険","定期保険"],a:1,e:"養老保険は、保険期間中に死亡すれば死亡保険金、満期まで生きていれば同額の満期保険金を受け取れる。"},
+ {f:"risk",t:"三択",q:"保険料の払込猶予期間を過ぎても、解約返戻金の範囲内で保険会社が保険料を立て替えて契約を続ける制度はどれ？",o:["自動振替貸付制度","契約者貸付制度","払済保険"],a:0,e:"自動振替貸付制度。契約者貸付は解約返戻金の範囲内で契約者がお金を借りる制度。"},
+ {f:"risk",t:"三択",q:"保険料の払込みをやめて、その時点の解約返戻金をもとに、保険期間を変えずに保険金額の少ない保険に変えるのはどれ？",o:["払済保険","延長保険","自動振替貸付制度"],a:0,e:"払済保険は保険期間はそのままで保険金額が下がる。延長保険は保険金額はそのままで保険期間が短くなる。"},
+ {f:"risk",t:"三択",q:"2012年1月1日以降に結んだ生命保険契約の場合、所得税の一般生命保険料控除の上限額はいくら？",o:["4万円","5万円","12万円"],a:0,e:"一般・介護医療・個人年金の各4万円、合計12万円が上限（所得税）。2011年以前の旧契約は各5万円。"},
+ {f:"risk",t:"三択",q:"契約者と被保険者が夫、死亡保険金受取人が妻の生命保険で、夫が死亡して妻が受け取った死亡保険金にかかる税金は？",o:["所得税・住民税","相続税","贈与税"],a:1,e:"契約者＝被保険者のときの死亡保険金は相続税の対象。契約者＝受取人なら所得税、3人とも違う人なら贈与税。"},
+ {f:"risk",t:"三択",q:"契約者と死亡保険金受取人が夫、被保険者が妻の生命保険で、妻が死亡して夫が受け取った死亡保険金にかかる税金は？",o:["所得税・住民税（一時所得）","相続税","贈与税"],a:0,e:"自分で保険料を払って自分が受け取るので所得税・住民税（一時金で受け取れば一時所得）。"},
+ {f:"risk",t:"三択",q:"保険業法上のクーリング・オフは、原則として申込日または契約内容を記載した書面の交付日のいずれか遅い日から何日以内？",o:["8日以内","14日以内","20日以内"],a:0,e:"8日以内（その日を含む）。保険期間が1年以内の契約などはクーリング・オフできない。"},
+ {f:"risk",t:"三択",q:"住宅用の火災保険（地震保険を付けていない）で補償されないのはどれ？",o:["落雷による損害","地震が原因の火災による損害","ガス爆発による損害"],a:1,e:"地震・噴火・津波が原因の火災は火災保険では補償されない。備えるには地震保険が必要。"},
+ {f:"risk",t:"三択",q:"所得税の地震保険料控除の上限額はいくら？",o:["3万円","5万円","10万円"],a:1,e:"所得税は最高5万円、住民税は最高2万5,000円。"},
+ {f:"risk",t:"三択",q:"普通傷害保険で補償の対象にならないのはどれ？",o:["旅行中の転倒による骨折","細菌性食中毒","通勤中の交通事故によるけが"],a:1,e:"普通傷害保険は「急激・偶然・外来」の事故によるけがが対象。細菌性食中毒は対象外（海外旅行傷害保険では対象）。"},
+ {f:"risk",t:"三択",q:"医療保険の先進医療特約で対象となる「先進医療」は、どの時点で厚生労働大臣が定めているものか？",o:["保険の契約時点","療養を受けた時点","保険会社が独自に定めた時点"],a:1,e:"療養を受けた時点で厚生労働大臣が定める先進医療が対象。契約後に追加された先進医療も対象になる。"},
+ {f:"risk",t:"○×",q:"自動車損害賠償責任保険（自賠責保険）は、相手の車やガードレールを壊したときの損害（対物賠償）も補償する。",o:["○","×"],a:1,e:"誤り。自賠責は対人賠償だけ。対物は任意の自動車保険でカバーする。死亡時の支払限度額は1人3,000万円。"},
+ {f:"risk",t:"○×",q:"保険会社のソルベンシー・マージン比率が200%以上であれば、健全性の一つの基準を満たしているとされる。",o:["○","×"],a:0,e:"正しい。200%を下回ると金融庁による早期是正措置の対象になる。"},
+ {f:"risk",t:"○×",q:"生命保険会社が破綻した場合、生命保険契約者保護機構により、原則として責任準備金等の90%までが補償される。",o:["○","×"],a:0,e:"正しい。ただし予定利率が高い契約は補償割合が下がることがある。"},
+ {f:"risk",t:"○×",q:"個人賠償責任保険は、仕事中に他人にケガをさせた場合の賠償責任も補償する。",o:["○","×"],a:1,e:"誤り。個人賠償責任保険は日常生活の事故が対象で、業務中の事故は対象外。業務上の賠償は事業者向けの賠償責任保険で備える。"},
+ {f:"risk",t:"○×",q:"失火責任法により、軽過失による失火で隣家を焼失させても、原則として隣家への損害賠償責任は負わない。",o:["○","×"],a:0,e:"正しい。重大な過失がある場合や、爆発による損害は賠償責任を負う。"},
+ {f:"risk",t:"○×",q:"借家人が軽過失で借りている部屋を焼失させた場合、家主に対しても損害賠償責任を負わない。",o:["○","×"],a:1,e:"誤り。家主に対しては部屋を元どおりにして返す義務（債務不履行責任）があるので、軽過失でも賠償責任を負う。借家人賠償責任保険で備える。"},
+ {f:"risk",t:"○×",q:"地震保険は単独で契約できる。",o:["○","×"],a:1,e:"誤り。地震保険は火災保険に付帯して契約する。火災保険の契約期間中なら途中から付けることもできる。"},
+ {f:"risk",t:"○×",q:"少額短期保険業者と結んだ保険契約は、生命保険契約者保護機構や損害保険契約者保護機構の補償の対象になる。",o:["○","×"],a:1,e:"誤り。少額短期保険はどちらの保護機構の対象にもならない。共済も対象外。"},
+ {f:"risk",t:"○×",q:"終身保険は保障が一生涯続き、解約したときには解約返戻金を受け取れる。",o:["○","×"],a:0,e:"正しい。ただし早い時期に解約すると、解約返戻金が払い込んだ保険料を下回ることが多い。"},
+ {f:"risk",t:"○×",q:"更新型の定期保険特約付終身保険は、更新時の年齢で保険料を計算し直すため、一般に更新すると保険料が上がる。",o:["○","×"],a:0,e:"正しい。更新時に健康状態の告知や診査は不要で、同じ保障額なら保険料は上がるのが一般的。"},
+ {f:"risk",t:"○×",q:"収入保障保険の死亡保険金は、一時金で受け取るほうが年金形式で受け取るよりも受取総額が多くなる。",o:["○","×"],a:1,e:"誤り。年金形式のほうが受取総額は多い。一時金で受け取ると、そのぶん運用期間がなくなるので受取総額は少なくなる。"},
+ {f:"risk",t:"○×",q:"人身傷害補償保険では、自分の過失割合の部分も含めて、実際の損害額が保険金額の範囲内で補償される。",o:["○","×"],a:0,e:"正しい。示談の成立を待たずに保険金を受け取れるのも特徴。"},
+ {f:"risk",t:"○×",q:"一般的な車両保険では、特約を付けていなければ、地震・噴火・津波による車の損害は補償されない。",o:["○","×"],a:0,e:"正しい。地震等による損害に備えるには専用の特約が必要。"},
+ {f:"risk",t:"○×",q:"個人が受け取った医療保険の入院給付金は、所得税の課税対象になる。",o:["○","×"],a:1,e:"誤り。被保険者本人（または配偶者や直系血族など）が受け取る入院給付金・手術給付金は非課税。"},
+ {f:"risk",t:"○×",q:"保険募集人には、顧客の意向を把握し、それに沿った保険商品を提案する義務（意向把握義務）がある。",o:["○","×"],a:0,e:"正しい。2016年施行の改正保険業法で、意向把握義務と情報提供義務が定められた。"},
+
+ // ===== 金融資産運用 =====
+ {f:"kinyu",t:"三択",q:"NISAの「つみたて投資枠」の年間投資上限額はいくら？",o:["40万円","120万円","240万円"],a:1,e:"つみたて投資枠は年120万円、成長投資枠は年240万円。生涯の非課税保有限度額は1,800万円（うち成長投資枠は1,200万円まで）。"},
+ {f:"kinyu",t:"三択",q:"内閣府が公表する景気動向指数のうち、景気の現状を示すのに使われるのはどれ？",o:["先行指数","一致指数","遅行指数"],a:1,e:"一致指数は景気とほぼ同時に動く。先行指数は景気より先に、遅行指数は遅れて動く。"},
+ {f:"kinyu",t:"三択",q:"表面利率1.0%、残存期間4年、購入価格99円（額面100円）の固定利付債券の最終利回り（単利）は？（小数点以下第3位を四捨五入）",o:["1.01%","1.25%","1.26%"],a:2,e:"（1.0＋(100−99)÷4）÷99×100＝1.25÷99×100≒1.26%。分母は購入価格なのがポイント。"},
+ {f:"kinyu",t:"三択",q:"一般に、信用格付がBBB（トリプルB）以上の債券は何と呼ばれる？",o:["投資適格債","投機的格付債","ハイ・イールド債"],a:0,e:"BBB以上が投資適格債。BB以下は投機的格付債（ハイ・イールド債）で、利回りは高いけど債務不履行のリスクも高い。"},
+ {f:"kinyu",t:"三択",q:"株価が1,500円、1株当たり純利益が100円の会社のPER（株価収益率）は？",o:["10倍","15倍","20倍"],a:1,e:"PER＝株価÷1株当たり純利益＝1,500÷100＝15倍。低いほど利益に比べて割安とされる。"},
+ {f:"kinyu",t:"三択",q:"株価が1,200円、1株当たり純資産が1,500円の会社のPBR（株価純資産倍率）は？",o:["0.8倍","1.25倍","1.5倍"],a:0,e:"PBR＝株価÷1株当たり純資産＝1,200÷1,500＝0.8倍。1倍を下回ると解散価値より株価が低いとされる。"},
+ {f:"kinyu",t:"三択",q:"株価が2,000円、1株当たり年間配当金が40円の会社の配当利回りは？",o:["2%","4%","5%"],a:0,e:"配当利回り＝1株当たり配当金÷株価×100＝40÷2,000×100＝2%。"},
+ {f:"kinyu",t:"三択",q:"ROE（自己資本利益率）は、当期純利益を何で割って求める？",o:["自己資本","総資産","売上高"],a:0,e:"ROE＝当期純利益÷自己資本×100。株主から預かったお金でどれだけ効率よく利益を出しているかを示す。"},
+ {f:"kinyu",t:"三択",q:"国内の上場株式を普通取引で売買した場合、受渡日はいつ？",o:["約定日から起算して2営業日目","約定日から起算して3営業日目","約定日から起算して4営業日目"],a:1,e:"約定日を含めて3営業日目に受け渡し。権利確定日に株主になるには、その2営業日前までに買う必要がある。"},
+ {f:"kinyu",t:"三択",q:"投資信託を保有している間、継続的に差し引かれるコストはどれ？",o:["購入時手数料","信託報酬（運用管理費用）","信託財産留保額"],a:1,e:"信託報酬は保有期間中ずっとかかる。購入時手数料は買うとき、信託財産留保額は解約時（かかる商品のみ）。"},
+ {f:"kinyu",t:"三択",q:"日経平均株価やTOPIXなどの指数と同じ値動きを目指す運用スタイルはどれ？",o:["パッシブ運用","アクティブ運用","ブル型運用"],a:0,e:"指数（ベンチマーク）連動を目指すのがパッシブ運用。指数を上回る成果を目指すのがアクティブ運用。"},
+ {f:"kinyu",t:"三択",q:"企業の利益や資産から見て株価が割安な銘柄に投資する運用スタイルはどれ？",o:["グロース投資","バリュー投資","トップダウン・アプローチ"],a:1,e:"割安株に投資するのがバリュー投資。将来の成長性が高い銘柄に投資するのがグロース投資。"},
+ {f:"kinyu",t:"三択",q:"2つの資産を組み合わせるとき、リスクを減らす効果が最も大きくなる相関係数はどれ？",o:["−1","0","＋1"],a:0,e:"相関係数が−1（まったく逆の値動き）のときに分散効果が最大。＋1だと分散効果はない。"},
+ {f:"kinyu",t:"三択",q:"特定口座で受け取る上場株式の配当金や譲渡益にかかる税率（所得税・復興特別所得税・住民税の合計）は？",o:["10.147%","20.315%","30.63%"],a:1,e:"所得税15%＋復興特別所得税0.315%＋住民税5%＝20.315%。"},
+ {f:"kinyu",t:"三択",q:"円を米ドルに換えて外貨預金に預け入れるときに適用される為替レートはどれ？",o:["TTS","TTB","TTM"],a:0,e:"円→外貨はTTS（銀行が売るレート）、外貨→円はTTB（銀行が買うレート）。TTMは仲値。"},
+ {f:"kinyu",t:"○×",q:"預金保険制度では、決済用預金を除く一般の預金について、1金融機関ごとに預金者1人あたり元本1,000万円までとその利息が保護される。",o:["○","×"],a:0,e:"正しい。無利息・要求払い・決済サービスの3条件を満たす決済用預金は全額保護。外貨預金は保護の対象外だよ。"},
+ {f:"kinyu",t:"○×",q:"市場金利が上がると、すでに発行されている固定利付債券の価格は上がる。",o:["○","×"],a:1,e:"誤り。金利が上がると、利率の低い既発債は魅力が下がって価格は下落する。金利と債券価格はシーソーの関係。"},
+ {f:"kinyu",t:"○×",q:"外貨預金をしている間に円安が進むと、円に戻したときの受取額は増える。",o:["○","×"],a:0,e:"正しい。円安は外貨の価値が上がる状態なので為替差益が出る。円高なら為替差損になる。"},
+ {f:"kinyu",t:"○×",q:"日経平均株価は、東証プライム市場に上場する全銘柄の時価総額をもとに算出される指数である。",o:["○","×"],a:1,e:"誤り。日経平均株価はプライム市場の代表的な225銘柄から算出する株価平均型の指数。時価総額をもとにした代表的な指数はTOPIX。"},
+ {f:"kinyu",t:"○×",q:"金融サービス提供法では、金融商品販売業者等が重要事項の説明をしなかったために顧客が損害を受けた場合の損害賠償責任を定めている。",o:["○","×"],a:0,e:"正しい。説明義務違反があれば、元本欠損額が損害額と推定される。"},
+ {f:"kinyu",t:"○×",q:"消費者契約法では、事業者の不適切な勧誘で誤認・困惑して結んだ契約を取り消すことができる。",o:["○","×"],a:0,e:"正しい。消費者契約法の保護対象は個人（消費者）で、事業者どうしの契約は対象外。"},
+ {f:"kinyu",t:"○×",q:"個人向け国債には、固定10年・変動5年・変動3年の3種類がある。",o:["○","×"],a:1,e:"誤り。正しくは変動10年・固定5年・固定3年の3種類。どれも最低0.05%の金利が保証されていて、1万円から購入できる。"},
+ {f:"kinyu",t:"○×",q:"個人向け国債は、原則として発行から1年経過すれば中途換金できる。",o:["○","×"],a:0,e:"正しい。国が額面で買い取ってくれるので元本割れはしない。ただし直前2回分の利子（税引前）相当額が差し引かれる。"},
+ {f:"kinyu",t:"○×",q:"信託財産留保額は、すべての投資信託で解約時に必ず差し引かれる。",o:["○","×"],a:1,e:"誤り。信託財産留保額がかからない投資信託も多い。"},
+ {f:"kinyu",t:"○×",q:"ETF（上場投資信託）は、証券取引所で株式と同じように指値注文や成行注文で売買できる。",o:["○","×"],a:0,e:"正しい。取引時間中は市場価格でリアルタイムに売買できる。信用取引もできる。"},
+ {f:"kinyu",t:"○×",q:"J-REIT（上場不動産投資信託）は、投資家から集めた資金で不動産に投資し、賃料収入や売却益を投資家に分配する。",o:["○","×"],a:0,e:"正しい。少額で複数の不動産に投資でき、証券取引所で売買できる。"},
+ {f:"kinyu",t:"○×",q:"単位型投資信託は、いつでも購入できる。",o:["○","×"],a:1,e:"誤り。単位型（ユニット型）は募集期間中しか購入できない。いつでも購入できるのは追加型（オープン型）。"},
+ {f:"kinyu",t:"○×",q:"NISA口座で生じた売却損は、特定口座や一般口座の利益と損益通算できる。",o:["○","×"],a:1,e:"誤り。NISA口座の損失はなかったものとされ、損益通算も繰越控除もできない。"},
+ {f:"kinyu",t:"○×",q:"特定口座で「源泉徴収あり」を選ぶと、原則として確定申告をしなくてよい。",o:["○","×"],a:0,e:"正しい。ほかの口座と損益通算したい場合などは、あえて確定申告することもできる。"},
+ {f:"kinyu",t:"○×",q:"外貨預金の利息は、20.315%の源泉分離課税である。",o:["○","×"],a:0,e:"正しい。円預金の利息と同じ扱い。一方、為替差益は原則として雑所得になる。"},
+
+ // ===== タックスプランニング =====
+ {f:"tax",t:"三択",q:"所得税では、所得はいくつの種類に区分される？",o:["8種類","10種類","12種類"],a:1,e:"利子・配当・不動産・事業・給与・退職・山林・譲渡・一時・雑の10種類。語呂合わせで覚える人が多いよ。"},
+ {f:"tax",t:"三択",q:"所得税の納税方法として、原則とされているのはどれ？",o:["申告納税方式","賦課課税方式","源泉分離課税"],a:0,e:"所得税は自分で税額を計算して申告する申告納税方式。住民税や固定資産税は自治体が税額を決める賦課課税方式。"},
+ {f:"tax",t:"三択",q:"給与所得の金額は、給与収入から何を差し引いて計算する？",o:["給与所得控除額","必要経費","特別控除額50万円"],a:0,e:"給与所得＝収入金額−給与所得控除額。必要経費を差し引くのは事業所得や不動産所得など。"},
+ {f:"tax",t:"三択",q:"老齢基礎年金や老齢厚生年金を受け取ったとき、何所得になる？",o:["雑所得","一時所得","給与所得"],a:0,e:"公的年金は雑所得。収入から公的年金等控除額を差し引いて計算する。"},
+ {f:"tax",t:"三択",q:"損失が出たとき、ほかの所得と損益通算できないのはどれ？",o:["不動産所得","事業所得","雑所得"],a:2,e:"損益通算できるのは不動産・事業・山林・譲渡所得の損失（「富士山上」と覚える）。雑所得や一時所得の損失はできない。"},
+ {f:"tax",t:"三択",q:"土地・建物の譲渡所得が「長期」とされるのは、譲渡した年の1月1日時点で所有期間が何年を超える場合？",o:["3年","5年","10年"],a:1,e:"1月1日時点で5年超なら長期、5年以下なら短期。実際の所有期間ではなく1月1日で判定するのがひっかけポイント。"},
+ {f:"tax",t:"三択",q:"土地・建物の短期譲渡所得にかかる税率（所得税・復興特別所得税・住民税の合計）は？",o:["20.315%","30.63%","39.63%"],a:2,e:"短期は39.63%（所得税30%＋復興税0.63%＋住民税9%）、長期は20.315%。"},
+ {f:"tax",t:"三択",q:"社会保険料控除の控除額はどれ？",o:["その年に支払った金額の全額","最高5万円","最高10万円"],a:0,e:"本人や生計を一にする親族の社会保険料を支払った場合、その全額が控除される。"},
+ {f:"tax",t:"三択",q:"青色申告特別控除の最高額はいくら？（電子申告などの要件を満たした場合）",o:["10万円","55万円","65万円"],a:2,e:"事業的規模の不動産所得または事業所得があり、e-Taxで申告するなどの要件を満たせば65万円。満たさない場合は55万円か10万円。"},
+ {f:"tax",t:"三択",q:"その年から青色申告をしたい場合、青色申告承認申請書の提出期限は原則いつ？（1月15日以前に開業した場合）",o:["その年の1月31日","その年の3月15日","その年の12月31日"],a:1,e:"原則としてその年の3月15日まで。1月16日以後に開業した場合は開業日から2か月以内。"},
+ {f:"tax",t:"三択",q:"所得税の確定申告の期間は、原則としていつ？",o:["翌年1月1日〜1月31日","翌年2月16日〜3月15日","翌年4月1日〜4月30日"],a:1,e:"所得があった年の翌年2月16日から3月15日まで。還付申告は翌年1月1日から5年間できる。"},
+ {f:"tax",t:"三択",q:"寄附金控除（ふるさと納税を含む）の控除額は「支出した寄附金の額−いくら」で計算する？",o:["1,000円","2,000円","5,000円"],a:1,e:"所得税の寄附金控除は「寄附金−2,000円」（総所得金額等の40%が上限）。"},
+ {f:"tax",t:"三択",q:"扶養控除のうち、特定扶養親族に当たるのは何歳の扶養親族？（その年の12月31日時点）",o:["16歳以上19歳未満","19歳以上23歳未満","23歳以上70歳未満"],a:1,e:"19歳以上23歳未満が特定扶養親族で、控除額が大きい。16歳未満は扶養控除の対象外。"},
+ {f:"tax",t:"三択",q:"勤続30年で退職した人（障害者になったことによる退職ではない）の退職所得控除額は？",o:["1,200万円","1,500万円","1,800万円"],a:1,e:"勤続20年までは40万円×年数、20年超の部分は70万円×年数。800万円＋70万円×10年＝1,500万円。"},
+ {f:"tax",t:"三択",q:"所得税の税率のしくみはどれ？",o:["比例税率","超過累進税率","単純累進税率"],a:1,e:"課税所得が一定額を超えた部分にだけ高い税率がかかる超過累進税率（5%〜45%の7段階）。"},
+ {f:"tax",t:"○×",q:"会社員でも、医療費控除を受けるには原則として確定申告が必要である。",o:["○","×"],a:0,e:"正しい。医療費控除は年末調整では受けられない。ふるさと納税のワンストップ特例との違いもよく出る。"},
+ {f:"tax",t:"○×",q:"一時所得の金額は「総収入金額−支出した金額−特別控除額（最高50万円）」で計算し、その全額が総所得金額に算入される。",o:["○","×"],a:1,e:"誤り。計算式は合っているけど、総所得金額に入れるのはその2分の1。生命保険の満期保険金（契約者＝受取人）などが一時所得になる。"},
+ {f:"tax",t:"○×",q:"医療費控除の上限額は200万円である。",o:["○","×"],a:0,e:"正しい。控除額は「支払った医療費−保険金などで補てんされた額−10万円（総所得金額等が200万円未満なら5%）」で、上限200万円。"},
+ {f:"tax",t:"○×",q:"勤続20年の会社員が受け取る退職金の退職所得は「（収入金額−退職所得控除額）×1/2」で計算する。",o:["○","×"],a:0,e:"正しい。勤続20年以下の退職所得控除額は40万円×勤続年数（最低80万円）なので、勤続20年なら800万円。"},
+ {f:"tax",t:"○×",q:"退職時に「退職所得の受給に関する申告書」を提出していれば、原則として確定申告は不要である。",o:["○","×"],a:0,e:"正しい。提出していない場合は収入金額に20.42%の源泉徴収がされ、確定申告で精算する。"},
+ {f:"tax",t:"○×",q:"人間ドックの費用は、異常が見つからなかった場合でも医療費控除の対象になる。",o:["○","×"],a:1,e:"誤り。健康診断や人間ドックの費用は原則対象外。重大な疾病が見つかり治療を受けた場合は対象になる。"},
+ {f:"tax",t:"○×",q:"セルフメディケーション税制（医療費控除の特例）と通常の医療費控除は、同じ年に両方使える。",o:["○","×"],a:1,e:"誤り。どちらか一方を選ぶ。"},
+ {f:"tax",t:"○×",q:"その年の給与収入が1,000万円を超える会社員は、それだけで確定申告が必要になる。",o:["○","×"],a:1,e:"誤り。確定申告が必要になるのは給与収入が2,000万円を超える場合。2,000万円超は年末調整の対象外なので、自分で確定申告する。"},
+ {f:"tax",t:"○×",q:"給与所得・退職所得以外の所得が年間20万円を超える会社員は、原則として確定申告が必要である。",o:["○","×"],a:0,e:"正しい。副業の所得が20万円を超えたら確定申告、というのはこのルール。"},
+ {f:"tax",t:"○×",q:"公的年金等の収入が400万円以下で、それ以外の所得が20万円以下なら、所得税の確定申告をしなくてよい。",o:["○","×"],a:0,e:"正しい。確定申告不要制度。ただし医療費控除などで還付を受けたいときは申告できる。"},
+ {f:"tax",t:"○×",q:"住民税はその年（当年）の所得をもとに計算される。",o:["○","×"],a:1,e:"誤り。住民税は前年の所得をもとに計算され、会社員は原則として給与から天引き（特別徴収）される。だから退職した翌年も前年の所得に対する住民税がかかる。"},
+ {f:"tax",t:"○×",q:"事業所得の損失は、給与所得と損益通算できる。",o:["○","×"],a:0,e:"正しい。事業所得の損失は損益通算の対象。ただし事業と認められない副業（雑所得）の損失は通算できない。"},
+ {f:"tax",t:"○×",q:"国内の預貯金の利子は、原則として20.315%の源泉分離課税である。",o:["○","×"],a:0,e:"正しい。源泉徴収だけで課税が終わるので、確定申告には含めない。"},
+ {f:"tax",t:"○×",q:"納税者本人の合計所得金額が1,000万円を超えると、配偶者控除を受けられない。",o:["○","×"],a:0,e:"正しい。本人の所得が900万円を超えると控除額が段階的に減り、1,000万円超でゼロになる。"},
+ {f:"tax",t:"○×",q:"ふるさと納税のワンストップ特例制度は、1年間の寄附先が6自治体以上の場合は使えない。",o:["○","×"],a:0,e:"正しい。使えるのは寄附先が5自治体以内で、確定申告をする必要がない人。"},
+
+ // ===== 不動産 =====
+ {f:"fudosan",t:"三択",q:"建ぺい率の計算式として正しいものはどれ？",o:["建築面積 ÷ 敷地面積","延べ面積 ÷ 敷地面積","敷地面積 ÷ 建築面積"],a:0,e:"建ぺい率は建築面積÷敷地面積。延べ面積÷敷地面積は容積率。この2つの取り違えは定番のひっかけ。"},
+ {f:"fudosan",t:"三択",q:"固定資産税で、住宅用地のうち200㎡以下の部分（小規模住宅用地）の課税標準は、どれだけに軽減される？",o:["2分の1","3分の1","6分の1"],a:2,e:"固定資産税は6分の1。同じ部分の都市計画税は3分の1。数字が似ているのでセットで覚えよう。"},
+ {f:"fudosan",t:"三択",q:"不動産登記記録で、所有権に関する事項が記録されるのはどこ？",o:["表題部","権利部（甲区）","権利部（乙区）"],a:1,e:"所有権は甲区、抵当権など所有権以外の権利は乙区。表題部には所在や面積など物理的な状況が記録される。"},
+ {f:"fudosan",t:"三択",q:"固定資産税や不動産取得税の課税標準の基礎となる価格はどれ？",o:["公示価格","相続税路線価","固定資産税評価額"],a:2,e:"固定資産税評価額。市町村が決めて、3年に1度評価替えをする。"},
+ {f:"fudosan",t:"三択",q:"相続税路線価は、公示価格の何%程度が目安とされる？",o:["60%","70%","80%"],a:2,e:"相続税路線価は公示価格の80%程度、固定資産税評価額は70%程度が目安。"},
+ {f:"fudosan",t:"三択",q:"売買価格が400万円を超える宅地・建物の売買を宅建業者が媒介した場合の報酬の上限（税抜）は？",o:["売買価格×3%＋6万円","売買価格×4%＋2万円","売買価格×5%"],a:0,e:"400万円超は「売買価格×3%＋6万円」（これに消費税）。売主・買主それぞれから受け取れる。"},
+ {f:"fudosan",t:"三択",q:"専任媒介契約の有効期間の上限は？",o:["1か月","3か月","6か月"],a:1,e:"専任媒介・専属専任媒介は3か月が上限。一般媒介には法律上の上限はない。"},
+ {f:"fudosan",t:"三択",q:"借地借家法の普通借地権の当初の存続期間は？",o:["20年以上","30年以上","50年以上"],a:1,e:"30年以上。期間を定めなかった場合や30年より短く定めた場合は30年になる。"},
+ {f:"fudosan",t:"三択",q:"一般定期借地権の存続期間は？",o:["10年以上","30年以上","50年以上"],a:2,e:"一般定期借地権は50年以上で、契約は書面（電磁的記録を含む）で行う。更新はない。"},
+ {f:"fudosan",t:"三択",q:"事業用定期借地権等の存続期間は？",o:["10年以上50年未満","30年以上","50年以上"],a:0,e:"10年以上50年未満で、公正証書で契約する必要がある。居住用の建物には使えない。"},
+ {f:"fudosan",t:"三択",q:"建築基準法の接道義務では、建築物の敷地は原則として幅員4m以上の道路に何m以上接していなければならない？",o:["1m","2m","4m"],a:1,e:"2m以上。幅員4m未満の道（2項道路）は、道路の中心線から2m下がった線が道路境界線とみなされる（セットバック）。"},
+ {f:"fudosan",t:"三択",q:"敷地面積200㎡、指定容積率200%の土地に建てられる建物の延べ面積の上限は？（前面道路による制限はないものとする）",o:["200㎡","400㎡","600㎡"],a:1,e:"200㎡×200%＝400㎡。実際には前面道路の幅員が12m未満だと容積率が制限されることもある。"},
+ {f:"fudosan",t:"三択",q:"区分所有法で、マンションの建替え決議に必要な賛成は？",o:["区分所有者と議決権の各過半数","区分所有者と議決権の各4分の3以上","区分所有者と議決権の各5分の4以上"],a:2,e:"建替えは各5分の4以上。規約の変更など特別決議は各4分の3以上。"},
+ {f:"fudosan",t:"三択",q:"居住用財産を譲渡した場合の特別控除の金額は、最高いくら？",o:["1,000万円","3,000万円","5,000万円"],a:1,e:"最高3,000万円。所有期間に関係なく使えるけど、配偶者や親子などへの譲渡には使えない。"},
+ {f:"fudosan",t:"三択",q:"不動産取得税を課すのはどこ？",o:["国","都道府県","市町村"],a:1,e:"不動産取得税は都道府県が課す地方税。固定資産税と都市計画税は市町村（東京23区は都）が課す。"},
+ {f:"fudosan",t:"○×",q:"不動産登記には公信力があるので、登記を信じて取引した人は、登記が真実と違っていても必ず保護される。",o:["○","×"],a:1,e:"誤り。日本の不動産登記には公信力がない。登記を信じて買っても、本当の所有者でない人からは権利を取得できないことがある。"},
+ {f:"fudosan",t:"○×",q:"普通借家契約で期間を1年未満と定めた場合、期間の定めがない契約とみなされる。",o:["○","×"],a:0,e:"正しい。一方、定期借家契約なら1年未満の期間も有効に定められる。"},
+ {f:"fudosan",t:"○×",q:"不動産を購入して登記するときの登録免許税は国税である。",o:["○","×"],a:0,e:"正しい。登録免許税は国税。不動産取得税や固定資産税は地方税だよ。"},
+ {f:"fudosan",t:"○×",q:"相続で不動産を取得した相続人は、取得を知った日から3年以内に相続登記を申請しなければならない。",o:["○","×"],a:0,e:"正しい。2024年4月から相続登記が義務化された。正当な理由なく怠ると10万円以下の過料の対象。"},
+ {f:"fudosan",t:"○×",q:"仮登記には、第三者への対抗力がない。",o:["○","×"],a:0,e:"正しい。仮登記は順位を確保する効力だけ。後で本登記をすると、仮登記の順位で対抗できる。"},
+ {f:"fudosan",t:"○×",q:"買主が解約手付を払った場合、売主が契約の履行に着手するまでは、買主は手付を放棄して契約を解除できる。",o:["○","×"],a:0,e:"正しい。売主から解除する場合は手付の倍額を現実に提供する必要がある。"},
+ {f:"fudosan",t:"○×",q:"宅建業者が自ら売主となる場合、買主から受け取れる手付金は代金の1割までである。",o:["○","×"],a:1,e:"誤り。上限は代金の2割まで。買主が宅建業者でない場合のルール。"},
+ {f:"fudosan",t:"○×",q:"公示価格は、国土交通省の土地鑑定委員会が毎年7月1日時点の価格を公表するものである。",o:["○","×"],a:1,e:"誤り。公示価格は1月1日時点で、毎年3月ごろに公表される。都道府県が調べる基準地標準価格は7月1日時点。"},
+ {f:"fudosan",t:"○×",q:"定期借家契約は、口頭でも結ぶことができる。",o:["○","×"],a:1,e:"誤り。定期借家契約は書面（電磁的記録を含む）で結ぶ必要があり、更新がないことを事前に書面で説明しなければならない。"},
+ {f:"fudosan",t:"○×",q:"第一種低層住居専用地域では、建築物の高さが原則として10mまたは12mに制限される。",o:["○","×"],a:0,e:"正しい。第一種・第二種低層住居専用地域と田園住居地域には絶対高さ制限がある。"},
+ {f:"fudosan",t:"○×",q:"市街化調整区域は、市街化を促進する区域である。",o:["○","×"],a:1,e:"誤り。市街化調整区域は市街化を抑える区域。すでに市街地になっているか、おおむね10年以内に市街化を進める区域は市街化区域。"},
+ {f:"fudosan",t:"○×",q:"相続によって不動産を取得した場合にも、不動産取得税が課される。",o:["○","×"],a:1,e:"誤り。相続による取得には不動産取得税はかからない。贈与による取得には課される。"},
+ {f:"fudosan",t:"○×",q:"不動産の売買契約書に収入印紙を貼り忘れても、契約自体は有効である。",o:["○","×"],a:0,e:"正しい。契約は有効だけど、印紙税の過怠税が課される。"},
+ {f:"fudosan",t:"○×",q:"都市計画税は、原則として市街化調整区域内にある土地・家屋に課される。",o:["○","×"],a:1,e:"誤り。都市計画税は原則として市街化区域内の土地・家屋に課される。税率は0.3%を上限に市町村が条例で定める。"},
+ {f:"fudosan",t:"○×",q:"普通借家契約で、貸主から更新を拒絶するには正当事由が必要である。",o:["○","×"],a:0,e:"正しい。借主を守るためのルールで、正当事由の判断では立退料の提供なども考慮される。"},
+
+ // ===== 相続・事業承継 =====
+ {f:"sozoku",t:"三択",q:"相続人が配偶者と被相続人の兄の2人のとき、配偶者の法定相続分は？",o:["2分の1","3分の2","4分の3"],a:2,e:"配偶者と兄弟姉妹なら配偶者は4分の3。配偶者と子なら2分の1、配偶者と直系尊属（親など）なら3分の2。"},
+ {f:"sozoku",t:"三択",q:"相続人が配偶者と被相続人の父母のとき、配偶者の法定相続分は？",o:["2分の1","3分の2","4分の3"],a:1,e:"配偶者と直系尊属なら配偶者3分の2、直系尊属が残り3分の1を分け合う。"},
+ {f:"sozoku",t:"三択",q:"相続人が配偶者と子2人のとき、子1人あたりの法定相続分は？",o:["2分の1","4分の1","6分の1"],a:1,e:"配偶者2分の1、子全体で2分の1。子が2人なら1人4分の1ずつ。"},
+ {f:"sozoku",t:"三択",q:"法定相続人が配偶者と子2人のとき、相続税の基礎控除額は？",o:["4,200万円","4,800万円","5,400万円"],a:1,e:"3,000万円＋600万円×3人＝4,800万円。"},
+ {f:"sozoku",t:"三択",q:"法定相続人が3人のとき、相続人が受け取った死亡保険金の非課税限度額は？",o:["600万円","1,500万円","3,000万円"],a:1,e:"500万円×法定相続人の数＝1,500万円。死亡退職金にも同じ計算の非課税枠がある。"},
+ {f:"sozoku",t:"三択",q:"家庭裁判所の検認が不要な遺言はどれ？",o:["自筆証書遺言（法務局に保管していないもの）","公正証書遺言","秘密証書遺言"],a:1,e:"公正証書遺言は検認不要。自筆証書遺言も法務局の保管制度を使えば検認は不要になる。"},
+ {f:"sozoku",t:"三択",q:"相続税の申告期限は？",o:["相続の開始を知った日の翌日から4か月以内","相続の開始を知った日の翌日から10か月以内","相続の開始を知った日の翌日から1年以内"],a:1,e:"10か月以内。被相続人の所得税の準確定申告は4か月以内。"},
+ {f:"sozoku",t:"三択",q:"亡くなった人の所得税の準確定申告の期限は？",o:["相続の開始を知った日の翌日から3か月以内","相続の開始を知った日の翌日から4か月以内","相続の開始を知った日の翌日から10か月以内"],a:1,e:"4か月以内。相続放棄・限定承認の3か月、相続税申告の10か月とあわせて「3・4・10」で覚えよう。"},
+ {f:"sozoku",t:"三択",q:"相続人が直系尊属（父母など）だけの場合、遺留分の割合（総体的遺留分）は？",o:["2分の1","3分の1","4分の1"],a:1,e:"直系尊属のみなら3分の1、それ以外は2分の1。兄弟姉妹には遺留分がない。"},
+ {f:"sozoku",t:"三択",q:"贈与税の配偶者控除（婚姻期間20年以上）で、基礎控除とは別に控除できる最高額は？",o:["1,000万円","2,000万円","2,500万円"],a:1,e:"居住用不動産またはその購入資金の贈与で最高2,000万円。基礎控除110万円と合わせて2,110万円まで非課税。"},
+ {f:"sozoku",t:"三択",q:"相続時精算課税制度の特別控除額（累計）は？",o:["1,100万円","2,000万円","2,500万円"],a:2,e:"累計2,500万円。2024年1月以降の贈与からは、これとは別に毎年110万円の基礎控除もある。"},
+ {f:"sozoku",t:"三択",q:"小規模宅地等の特例で、特定居住用宅地等（被相続人の自宅の敷地）の限度面積と減額割合は？",o:["200㎡まで50%減額","330㎡まで80%減額","400㎡まで80%減額"],a:1,e:"特定居住用は330㎡まで80%、特定事業用は400㎡まで80%、貸付事業用は200㎡まで50%。"},
+ {f:"sozoku",t:"三択",q:"貸家建付地（自分の土地に建てたアパートの敷地）の相続税評価額の計算式は？",o:["自用地評価額×（1−借地権割合×借家権割合×賃貸割合）","自用地評価額×（1−借地権割合）","自用地評価額×借地権割合"],a:0,e:"貸家建付地は「1−借地権割合×借家権割合×賃貸割合」を掛ける。「1−借地権割合」は貸宅地（底地）、「×借地権割合」は借地権の評価。"},
+ {f:"sozoku",t:"三択",q:"相続税の2割加算の対象になるのは、次のうち誰が財産を取得した場合？",o:["配偶者","子","兄弟姉妹"],a:2,e:"配偶者・子・父母以外（兄弟姉妹や孫養子など）が財産を取得すると相続税額が2割加算される。"},
+ {f:"sozoku",t:"三択",q:"上場株式の相続税評価額は、課税時期の終値と、課税時期の月を含む3か月間の各月の終値の平均額のうち、どれを使う？",o:["最も低い価額","最も高い価額","4つの価額の平均"],a:0,e:"課税時期の終値、その月・前月・前々月の毎日の終値の平均額の4つのうち、最も低い価額で評価する。"},
+ {f:"sozoku",t:"○×",q:"相続税の基礎控除額は「3,000万円＋600万円×法定相続人の数」である。",o:["○","×"],a:0,e:"正しい。法定相続人が3人なら3,000万円＋1,800万円＝4,800万円。遺産がこの額以下なら相続税はかからない。"},
+ {f:"sozoku",t:"○×",q:"暦年課税の贈与税の基礎控除額は、受け取る人1人あたり年間110万円である。",o:["○","×"],a:0,e:"正しい。あげる人ごとではなく、もらう人ごとに年110万円まで。"},
+ {f:"sozoku",t:"○×",q:"相続の放棄は、自己のために相続の開始があったことを知った時から3か月以内に家庭裁判所に申述しなければならない。",o:["○","×"],a:0,e:"正しい。限定承認も同じく3か月以内。限定承認は相続人全員で行う必要がある点もよく出る。"},
+ {f:"sozoku",t:"○×",q:"遺留分は、被相続人の兄弟姉妹にも認められている。",o:["○","×"],a:1,e:"誤り。兄弟姉妹には遺留分がない。遺留分があるのは配偶者・子（代襲相続人を含む）・直系尊属。"},
+ {f:"sozoku",t:"○×",q:"養子は、実子と同じく第1順位の相続人になる。",o:["○","×"],a:0,e:"正しい。普通養子は実の親との親子関係も続くので、実の親と養親の両方の相続人になる。"},
+ {f:"sozoku",t:"○×",q:"相続税の基礎控除の計算で法定相続人の数に含められる普通養子は、被相続人に実子がいる場合は1人までである。",o:["○","×"],a:0,e:"正しい。実子がいない場合は2人まで。"},
+ {f:"sozoku",t:"○×",q:"相続を放棄した人は、相続税の基礎控除を計算するときの法定相続人の数に含めない。",o:["○","×"],a:1,e:"誤り。基礎控除の計算では、相続の放棄はなかったものとして法定相続人の数に含める。"},
+ {f:"sozoku",t:"○×",q:"自筆証書遺言は、添付する財産目録も含めてすべて自書しなければならない。",o:["○","×"],a:1,e:"誤り。財産目録はパソコンで作ったり通帳のコピーを付けたりしてもよい。ただし目録の各ページに署名・押印が必要。"},
+ {f:"sozoku",t:"○×",q:"公正証書遺言は、証人1人の立会いがあれば作成できる。",o:["○","×"],a:1,e:"誤り。証人2人以上の立会いが必要。推定相続人や受遺者、その配偶者などは証人になれない。"},
+ {f:"sozoku",t:"○×",q:"配偶者の税額軽減により、配偶者が取得した財産が1億6,000万円または配偶者の法定相続分相当額のいずれか多い金額までなら、配偶者に相続税はかからない。",o:["○","×"],a:0,e:"正しい。ただし相続税がゼロになる場合でも、この特例を使うには申告が必要。"},
+ {f:"sozoku",t:"○×",q:"相続税の計算で、通夜・告別式などの葬式費用は債務控除の対象になるが、香典返しの費用は対象にならない。",o:["○","×"],a:0,e:"正しい。香典返し、法要（初七日など）の費用、墓地や墓石の購入費用は対象外。"},
+ {f:"sozoku",t:"○×",q:"贈与は、あげる人の一方的な意思表示だけで成立する。",o:["○","×"],a:1,e:"誤り。贈与はあげる人ともらう人の合意で成立する契約（諾成契約）。"},
+ {f:"sozoku",t:"○×",q:"書面によらない贈与は、履行が終わった部分を除き、各当事者が解除できる。",o:["○","×"],a:0,e:"正しい。書面による贈与は原則として解除できない。"},
+ {f:"sozoku",t:"○×",q:"相続人である子が相続を放棄した場合、その子の子（孫）が代襲相続する。",o:["○","×"],a:1,e:"誤り。代襲相続が起きるのは死亡・欠格・廃除の場合で、相続放棄では代襲相続は起きない。"},
+ {f:"sozoku",t:"○×",q:"贈与税の申告期間は、贈与を受けた年の翌年2月16日から3月15日までである。",o:["○","×"],a:1,e:"誤り。贈与税の申告期間は翌年2月1日から3月15日まで。所得税の確定申告（2月16日から）と始まりの日が違うので注意。"}
+];
+Q.forEach((q,i)=>q.id=i);
+const CFG = {"ed": "shemoney", "promo": null};
+/* おいもくん・マシュマロくん（手描き風のデフォルメSVG）。kind: "oimo" | "mallow"、mood: "smile" | "happy" | "cheer" */
+function dogSVG(kind,mood){
+  const P=kind==="oimo"
+    ?{fur:"#c4613f",shade:"#a94f33",line:"#43271c",belly:"#c4613f"}
+    :{fur:"#fffdfa",shade:"#efe9e3",line:"#43362f",belly:"#fffdfa"};
+  // もこもこ：中心の円のまわりに小さな円を並べて、くるくるの毛の輪郭を作る
+  const curl=(cx,cy,R,n,r)=>{const a=[[cx,cy,R]];for(let i=0;i<n;i++){const t=i/n*Math.PI*2;a.push([cx+Math.cos(t)*R,cy+Math.sin(t)*R,r])}return a};
+  const c=(a,f,x="")=>a.map(([X,Y,r])=>`<circle cx="${X.toFixed(1)}" cy="${Y.toFixed(1)}" r="${r}" fill="${f}" ${x}/>`).join("");
+  // パーツごとに太い線を下に敷いてから塗る（重なったところに境目の線が出る）
+  const part=(a,f)=>c(a,P.line,`stroke="${P.line}" stroke-width="5"`)+c(a,f);
+  const tail=curl(97,90,4,8,4.2);
+  const body=curl(60,93,15,12,6.5).concat(curl(76,99,7,8,4.5));
+  const paws=`<ellipse cx="50" cy="112" rx="7" ry="5" fill="${P.fur}" stroke="${P.line}" stroke-width="2.6"/><ellipse cx="66" cy="112" rx="7" ry="5" fill="${P.fur}" stroke="${P.line}" stroke-width="2.6"/>`;
+  const head=curl(58,46,22,16,8.5);
+  const earL=curl(31,46,5,8,5).concat(curl(29,59,4.5,8,4.8)), earR=curl(85,46,5,8,5).concat(curl(87,59,4.5,8,4.8));
+  const eyes=mood==="happy"||mood==="cheer"
+    ?`<path d="M44.5 52 Q48.5 46.5 52.5 52" fill="none" stroke="${P.line}" stroke-width="2.8" stroke-linecap="round"/><path d="M63.5 52 Q67.5 46.5 71.5 52" fill="none" stroke="${P.line}" stroke-width="2.8" stroke-linecap="round"/>`
+    :`<ellipse cx="48.5" cy="50" rx="3.9" ry="5" fill="${P.line}"/><ellipse cx="67.5" cy="50" rx="3.9" ry="5" fill="${P.line}"/><circle cx="49.6" cy="48.4" r="1.3" fill="#fff"/><circle cx="68.6" cy="48.4" r="1.3" fill="#fff"/>`;
+  const mouth=mood==="cheer"||mood==="happy"
+    ?`<path d="M53 61.5 Q58 69 63 61.5Z" fill="#ee8b86" stroke="${P.line}" stroke-width="2" stroke-linejoin="round"/>`
+    :`<path d="M54.5 61 Q56.5 63.5 58 61 Q59.5 63.5 61.5 61" fill="none" stroke="${P.line}" stroke-width="2" stroke-linecap="round"/>`;
+  // cheer：腕は描かない（もこもこの丸・棒の腕・両手どれも違和感があったため。kenta確認済み）。表情は happy と同じ
+  const paw="";
+  return `<svg viewBox="0 0 120 124" class="dog dog-${kind}" role="img" aria-label="${kind==="oimo"?"おいもくん":"マシュマロくん"}">
+    <ellipse cx="62" cy="117" rx="36" ry="5" fill="#d9952f" opacity=".22"/>
+    ${part(tail,P.fur)}${part(body,P.fur)}${paws}
+    ${part(earL,P.shade)}${part(earR,P.shade)}${part(head,P.fur)}
+    <ellipse cx="42" cy="58" rx="4.6" ry="2.8" fill="#f5a7a2" opacity=".75"/><ellipse cx="74" cy="58" rx="4.6" ry="2.8" fill="#f5a7a2" opacity=".75"/>
+    ${eyes}<ellipse cx="58" cy="57" rx="3.6" ry="2.7" fill="${P.line}"/>
+    ${mouth}${paw}
+  </svg>`;
+}
+
+const MAS=!!CFG.mascot;
+// 使用状況の計測（GitHub Pages版だけ GoatCounter を読み込む。読み込んでいない版では何もしない）
+function track(n){try{if(window.goatcounter&&window.goatcounter.count)window.goatcounter.count({path:"ev/"+(CFG.ed||"x")+"/"+n,title:(CFG.ed||"")+" "+n,event:true})}catch(e){}}
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+function say(kind,mood,text){return `<div class="say"><div class="say-dog">${dogSVG(kind,mood)}</div><div class="bubble">${text}</div></div>`}
+if(MAS) document.getElementById("mascotHead").innerHTML=`<div class="duo">${dogSVG("oimo","smile")}${dogSVG("mallow","happy")}</div><p class="duo-cap">おいもくんとマシュマロくんが、合格までいっしょに応援するよ。</p>`;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+/* ---- 状況に合わせた教材紹介（CFG.promo がある版だけ） ---- */
+function amzURL(asin){const p=CFG.promo;return asin?`https://www.amazon.co.jp/dp/${encodeURIComponent(asin)}${p.tag?"?tag="+encodeURIComponent(p.tag):""}`:""}
+function recCard(key){
+  const it=CFG.promo.catalog[key]; if(!it) return "";
+  const url=it.url||amzURL(it.asin);
+  const inner=`<span class="k">${esc(it.label)}</span><b>${esc(it.name)}</b><span>${esc(it.text)}</span>${url?'<span class="k">Amazonで見る →</span>':'<span class="soon">リンク準備中</span>'}`;
+  return url?`<a class="item" data-k="${key}" href="${esc(url)}" target="_blank" rel="noopener sponsored">${inner}</a>`:`<div class="item">${inner}</div>`;
+}
+function recBox(keys,lead,withNote){
+  const p=CFG.promo; if(!p||!keys.length) return "";
+  const n=p.note, note=withNote&&n?`<div class="cta"><b>${esc(n.title)}</b><span style="font-size:.88rem">${esc(n.text)}</span>${n.url?`<a href="${esc(n.url)}" target="_blank" rel="noopener">${esc(n.link)} →</a>`:'<span class="foot">リンク準備中</span>'}</div>`:"";
+  return `<div class="box promo"><div class="promo-head"><h2>今のあなたにおすすめの教材</h2><span class="pr">PR</span></div>
+    <p style="margin:0;font-size:.9rem">${lead}</p><div class="items">${keys.map(recCard).join("")}</div>${note}<p class="foot">${esc(p.disclosure)}</p></div>`;
+}
+// リンク（url か asin）が設定済みの教材だけ表示する
+function has(k){const it=CFG.promo&&CFG.promo.catalog[k];return !!(it&&(it.url||it.asin))}
+const avail=keys=>keys.filter(has);
+function jitsugiKey(){const v=document.getElementById("jitsugi").value;return v&&has("jitsugi_"+v)?"jitsugi_"+v:""}
+function recPlan(days){
+  if(!CFG.promo) return;
+  let keys,lead;
+  if(days>30){keys=["text","mondai"];lead=`試験まで${days}日あるから、今は1分野ずつ問題を解きながら覚えていく時期。解説を読んだあとに確認するテキストと、問題の量を増やすための問題集をセットでそろえておこう。`}
+  else if(has("yoso")){const j=jitsugiKey();keys=["yoso"].concat(j?[j]:[]);lead=`試験まであと${days}日で直前期。本番形式の予想問題と実技対策で仕上げよう。`}
+  else{keys=["mondai"];lead=`試験まであと${days}日で直前期。新しい教材に手を広げず、問題集の2周目で間違えた問題だけを解き直して仕上げよう。`}
+  document.getElementById("promoPlan").innerHTML=recBox(avail(keys),lead,true);
+}
+function recMock(score){
+  if(!CFG.promo) return;
+  let keys,lead;const j=jitsugiKey();
+  if(score==null){keys=["text","mondai"];lead="模擬試験を受けると、点数に合わせて次に使う教材をおすすめするよ。まずは基本の2冊から。"}
+  else if(score>=36&&has("yoso")){keys=["yoso"].concat(j?[j]:[]);lead=`前回は${score}点で合格ライン超え。学科はあと一押しだから、予想問題で8割を目指しつつ実技の対策に進もう。`}
+  else if(score>=36){keys=["mondai"];lead=`前回は${score}点で合格ライン超え。問題集の2周目で学科8割（48点）を目指しつつ、問題集の実技の章で自分の受ける科目を仕上げよう。`}
+  else{keys=["text","mondai"];lead=`前回は${score}点で、合格ラインまであと${36-score}点。今は問題を増やすより、テキストで間違えた論点を読み直して、問題集で同じ論点を解き直すのが近道。`}
+  document.getElementById("promoMock").innerHTML=recBox(avail(keys),lead,false);
+}
+function recQuiz(correct,total){
+  if(!CFG.promo) return;
+  const pct=Math.round(correct/total*100);
+  const field=sel!=="all"&&sel!=="wrong"?fname(sel):"";
+  let keys,lead;
+  if(pct<60){keys=["text"];lead=`正答率${pct}%。${field?`テキストの「${field}」の章`:"テキストの間違えた論点のページ"}を読み直してから解き直すと、点数がぐっと伸びるよ。`}
+  else{keys=["mondai"];lead=`正答率${pct}%でいい感じ。${field?`「${field}」は`:""}理解できてきたから、問題集で問題の量を増やして得点を安定させよう。`}
+  document.getElementById("promoQuiz").innerHTML=recBox(avail(keys),lead,false);
+}
+function recWeak(weakest){
+  if(!CFG.promo) return;
+  let keys,lead;
+  if(!weakest){keys=["text"];lead="記録がたまると、苦手な分野に合わせて教材をおすすめするよ。"}
+  else if(weakest.p<60){keys=["text"];lead=`「${weakest.name}」の正答率が${weakest.p}%。テキストのこの分野の章を読み直してから、ミニ問題で解き直そう。`}
+  else{keys=["mondai"];lead=`いちばん低い「${weakest.name}」でも${weakest.p}%で、どの分野も6割を超えてる。問題の量を増やして得点を安定させよう。`}
+  document.getElementById("promoWeak").innerHTML=recBox(avail(keys),lead,false);
+}
+
+/* ---- storage（この端末だけ） ---- */
+const KEY="fp3nav-stats-v2";
+function loadStats(){try{const s=JSON.parse(localStorage.getItem(KEY)||"{}");return s&&typeof s==="object"?s:{}}catch(e){return {}}}
+function saveStats(){try{localStorage.setItem(KEY,JSON.stringify(stats))}catch(e){}}
+let stats=loadStats();
+stats.f=stats.f||{}; stats.jc=stats.jc&&typeof stats.jc==="object"?stats.jc:{}; stats.wrong=Array.isArray(stats.wrong)?stats.wrong:[]; stats.mocks=Array.isArray(stats.mocks)?stats.mocks:[];
+function record(q,ok){
+  const s=stats.f[q.f]||{n:0,c:0}; s.n++; if(ok)s.c++; stats.f[q.f]=s;
+  const set=new Set(stats.wrong); if(ok)set.delete(q.id); else set.add(q.id); stats.wrong=[...set];
+}
+const fname=id=>FIELDS.find(f=>f.id===id).name;
+const fshort=id=>FIELDS.find(f=>f.id===id).short;
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+// 三択は選択肢の並びを毎回シャッフル（○×はそのまま）
+function prep(q){
+  if(q.t!=="三択") return {...q,ord:[0,1,2].slice(0,q.o.length)};
+  return {...q,ord:shuffle(q.o.map((_,i)=>i))};
+}
+function optsHTML(q,cls){
+  return `<div class="opts ${q.t==="○×"?"ox":""}">${q.ord.map((oi,k)=>`<button class="opt ${cls?cls(oi):""}" data-i="${oi}">${q.t==="○×"?q.o[oi]:(k+1)+"．"+q.o[oi]}</button>`).join("")}</div>`;
+}
+
+/* ---- tabs ---- */
+function showTab(name){
+  document.querySelectorAll(".tabs button").forEach(x=>x.setAttribute("aria-selected",x.dataset.tab===name?"true":"false"));
+  ["plan","quiz","mock","weak"].forEach(t=>document.getElementById("panel-"+t).hidden=(t!==name));
+  if(name==="weak") renderWeak();
+  if(name==="quiz") renderChips();
+  if(name==="mock") renderMockLast();
+}
+document.querySelectorAll(".tabs button").forEach(b=>b.addEventListener("click",()=>{track("tab-"+b.dataset.tab);showTab(b.dataset.tab)}));
+
+/* ---- 学習プラン ---- */
+const fmt=d=>`${d.getMonth()+1}/${d.getDate()}`;
+const addDays=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x};
+function toISO(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`}
+const today=new Date();today.setHours(0,0,0,0);
+const examInput=document.getElementById("examDate");
+examInput.value=toISO(addDays(today,70));
+examInput.min=toISO(addDays(today,7));
+
+function countHours(start,end,wd,we){
+  let m=0;for(let d=new Date(start);d<end;d.setDate(d.getDate()+1)){const k=d.getDay();m+=(k===0||k===6)?we:wd}
+  return m/60;
+}
+function renderPlan(){
+  const out=document.getElementById("planOut");
+  const exam=new Date(examInput.value+"T00:00:00");
+  const wd=+document.getElementById("weekday").value, we=+document.getElementById("weekend").value;
+  const lv=document.getElementById("level").value;
+  stats.jitsugi=document.getElementById("jitsugi").value; saveStats();
+  const need={beginner:100,some:70,retry:50}[lv];
+  const days=Math.round((exam-today)/864e5);
+  if(!examInput.value||isNaN(days)||days<7){out.innerHTML='<p>試験日は今日から1週間以上先の日付を選んでね。</p>';return}
+  const have=countHours(today,exam,wd,we);
+  const ratio=have/need;
+  let verdict;
+  if(ratio>=1.1) verdict=`<div class="verdict ok"><b>ペースは十分。</b>試験までに約${Math.round(have)}時間とれて、目安の${need}時間をカバーできる。余った時間は模擬試験の回数を増やそう。</div>`;
+  else if(ratio>=0.9) verdict=`<div class="verdict ok"><b>ちょうどいいペース。</b>約${Math.round(have)}時間で目安${need}時間とほぼ同じ。休む日を作るなら休日に少し上乗せしよう。</div>`;
+  else { const short=Math.ceil(need-have); const wks=Math.max(1,Math.floor(days/7)); const add=Math.ceil(short*60/(wks*2));
+    verdict=`<div class="verdict warn"><b>このままだと約${short}時間足りない。</b>とれる時間は約${Math.round(have)}時間で、目安は${need}時間。休日の勉強を1日あたり${add}分ほど増やすか、試験日を後ろにずらすのがおすすめ。</div>`; }
+  const p1=Math.max(3,Math.round(days*0.5)), p2=Math.max(2,Math.round(days*0.35));
+  const s1=today, s2=addDays(today,p1), s3=addDays(s2,p2);
+  const totalW=FIELDS.reduce((a,f)=>a+f.w,0);
+  let cursor=new Date(s1);
+  const rows=FIELDS.map((f,i)=>{
+    const len=i===FIELDS.length-1?Math.max(1,Math.round((s2-cursor)/864e5)):Math.max(1,Math.round(p1*f.w/totalW));
+    const st=new Date(cursor), en=addDays(cursor,len-1); cursor=addDays(cursor,len);
+    return `<div class="frow"><span>${f.name}</span><span>${fmt(st)}〜${fmt(en)}</span></div>`;
+  }).join("");
+  out.innerHTML=`<h2>試験まで ${days}日 のプラン</h2>${verdict}
+  <div class="phase"><span class="tag">STEP 1</span><div><h3>1周目：問題を解きながら覚える</h3><div class="date">${fmt(s1)}〜${fmt(addDays(s2,-1))}</div></div>
+    <p>1分野ずつ「ミニ問題を解く→解説を読む→テキストの該当箇所を確認する」をくり返す。最初はわからなくて当然なので、すぐ答え合わせをして大丈夫。先に問題を見ておくと、テキストのどこが大事かがわかる。</p>
+    <div class="fields">${rows}</div></div>
+  <div class="phase"><span class="tag">STEP 2</span><div><h3>2周目：模擬試験と解き直し</h3><div class="date">${fmt(s2)}〜${fmt(addDays(s3,-1))}</div></div>
+    <p>週1〜2回の模擬試験（60問・120分）で実力を測りながら、間違えた問題を解き直す。模擬試験で6割を超えたら、公式サイトの過去問・サンプル問題と、上の「実技」で事例問題へ。ここが一番点数が伸びる時期。</p></div>
+  <div class="phase"><span class="tag">STEP 3</span><div><h3>直前仕上げ：苦手つぶし</h3><div class="date">${fmt(s3)}〜${fmt(addDays(exam,-1))}</div></div>
+    <p>「苦手」タブで正答率が低い分野と「間違えた問題」を集中して復習。最後にもう一度模擬試験を通しで解いて、8割を目標に。</p></div>`;
+  recPlan(days);
+}
+["examDate","weekday","weekend","level","jitsugi"].forEach(id=>document.getElementById(id).addEventListener("change",renderPlan));
+if(["","fp","kojin","hoken"].includes(stats.jitsugi)) document.getElementById("jitsugi").value=stats.jitsugi;
+renderPlan();
+
+/* ---- ミニ問題 ---- */
+let sel="all", qcount=5, queue=[], idx=0, correct=0;
+const chips=document.getElementById("fieldChips");
+function renderChips(){
+  const nw=stats.wrong.length;
+  const list=[{id:"all",short:"全分野ミックス"},...FIELDS,{id:"wrong",short:`間違えた問題（${nw}）`}];
+  if(sel==="wrong"&&!nw) sel="all";
+  chips.innerHTML=list.map(f=>`<button class="chip" data-f="${f.id}" aria-pressed="${f.id===sel}" ${f.id==="wrong"&&!nw?"disabled":""}>${f.short}</button>`).join("");
+}
+renderChips();
+chips.addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b||b.disabled)return;sel=b.dataset.f;chips.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed",c===b?"true":"false"))});
+document.getElementById("countChips").addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;qcount=+b.dataset.n;document.querySelectorAll("#countChips .chip").forEach(c=>c.setAttribute("aria-pressed",c===b?"true":"false"))});
+document.getElementById("startQuiz").addEventListener("click",startQuiz);
+function startQuiz(){
+  track("quiz-start-"+sel);
+  const pool=sel==="all"?Q:sel==="wrong"?Q.filter(q=>stats.wrong.includes(q.id)):Q.filter(q=>q.f===sel);
+  if(!pool.length){showTab("quiz");return}
+  queue=shuffle(pool).slice(0,qcount).map(prep); idx=0; correct=0;
+  document.getElementById("promoQuiz").innerHTML="";
+  document.getElementById("quizSetup").hidden=true;
+  document.getElementById("quizBox").hidden=false;
+  showQ();
+}
+function showQ(){
+  const q=queue[idx], box=document.getElementById("quizBox");
+  box.innerHTML=`<div class="qmeta"><span>${fname(q.f)}・${q.t}</span><span>${idx+1} / ${queue.length}</span></div>
+    <div class="qtext">${q.q}</div>${optsHTML(q)}<div id="after"></div>`;
+  box.querySelectorAll(".opt").forEach(b=>b.addEventListener("click",()=>answer(+b.dataset.i)));
+}
+function answer(i){
+  const q=queue[idx], box=document.getElementById("quizBox"), ok=i===q.a;
+  if(ok)correct++;
+  record(q,ok); saveStats();
+  box.querySelectorAll(".opt").forEach(b=>{const k=+b.dataset.i;b.disabled=true;if(k===q.a)b.classList.add("right");else if(k===i)b.classList.add("wrong")});
+  const last=idx===queue.length-1;
+  document.getElementById("after").innerHTML=`${MAS?(ok?say("oimo","cheer",pick(["正解！その調子！","さすが！どんどんいこう","覚えてきたね！"])):say("mallow","smile",pick(["おしい！解説を読めば次は解けるよ","大丈夫、間違えた問題はあとで解き直せるよ","ここ、よく出るところだから覚えちゃおう"]))):""}<div class="explain"><b>${ok?"正解！":"おしい、不正解。"}</b> ${q.e}</div>
+    <button class="primary" id="nextBtn" style="margin-top:12px">${last?"結果を見る":"次の問題へ"}</button>`;
+  document.getElementById("nextBtn").addEventListener("click",()=>{if(last)showResult();else{idx++;showQ()}});
+  document.getElementById("nextBtn").focus();
+}
+function showResult(){
+  track("quiz-done");
+  const box=document.getElementById("quizBox"), pct=Math.round(correct/queue.length*100);
+  const msg=pct>=80?"この調子！本番の合格ラインは6割だから、安定して8割取れれば安心。":pct>=60?"合格ラインには届いてる。間違えた問題は「間違えた問題」から解き直そう。":"今はまだ覚える段階だから大丈夫。解説を読み返して、もう一度チャレンジしよう。";
+  box.innerHTML=`<div class="qmeta"><span>今回の結果</span><span>${queue.length}問</span></div>
+    <div class="score">${correct} / ${queue.length}</div>${MAS?say(pct>=60?"oimo":"mallow",pct>=60?"cheer":"smile",msg):`<p style="margin:0">${msg}</p>`}
+    <button class="primary" id="again">もう一度（同じ条件）</button>`;
+  recQuiz(correct,queue.length);
+  box.innerHTML+=`
+    <div class="row2"><button class="ghost" id="toSetup">条件を選び直す</button><button class="ghost" id="toWeak">苦手を見る</button></div>`;
+  document.getElementById("again").addEventListener("click",startQuiz);
+  document.getElementById("toSetup").addEventListener("click",()=>{box.hidden=true;document.getElementById("promoQuiz").innerHTML="";document.getElementById("quizSetup").hidden=false;renderChips()});
+  document.getElementById("toWeak").addEventListener("click",()=>showTab("weak"));
+}
+
+/* ---- 模擬試験 ---- */
+const MOCK_SEC=120*60;
+let mock=null, timerId=null;
+function renderMockLast(){
+  const el=document.getElementById("mockLast");
+  const lastM=stats.mocks.length?stats.mocks[stats.mocks.length-1].s:null; recMock(lastM);
+  if(!stats.mocks.length){el.textContent="まだ受けた記録はないよ。";return}
+  el.textContent="これまでの得点："+stats.mocks.slice(-5).map(m=>`${m.d} ${m.s}点`).join("／");
+}
+renderMockLast();
+document.getElementById("startMock").addEventListener("click",()=>{
+  track("mock-start");
+  let ox=[], sa=[];
+  FIELDS.forEach(f=>{
+    ox=ox.concat(shuffle(Q.filter(q=>q.f===f.id&&q.t==="○×")).slice(0,5));
+    sa=sa.concat(shuffle(Q.filter(q=>q.f===f.id&&q.t==="三択")).slice(0,5));
+  });
+  mock={qs:[...shuffle(ox),...shuffle(sa)].map(prep),ans:Array(60).fill(null),cur:0,end:Date.now()+MOCK_SEC*1000,confirm:false};
+  document.getElementById("mockIntro").hidden=true;
+  document.getElementById("mockBox").hidden=false;
+  clearInterval(timerId); timerId=setInterval(tick,1000);
+  renderMock();
+});
+function remain(){return Math.max(0,Math.round((mock.end-Date.now())/1000))}
+function tick(){
+  if(!mock) return;
+  const r=remain(), el=document.getElementById("mockTimer");
+  if(el){el.querySelector("b").textContent=`${Math.floor(r/60)}:${String(r%60).padStart(2,"0")}`;el.classList.toggle("low",r<600)}
+  if(r<=0) finishMock(true);
+}
+function renderMock(){
+  const box=document.getElementById("mockBox"), q=mock.qs[mock.cur], n=mock.cur;
+  const answered=mock.ans.filter(a=>a!==null).length;
+  box.innerHTML=`<div class="timer" id="mockTimer"><span>残り時間</span><b></b><span>${answered} / 60 解答</span></div>
+    <div class="qmeta"><span>第${n+1}問・${q.t}</span><span>${fname(q.f)}</span></div>
+    <div class="qtext">${q.q}</div>
+    ${optsHTML(q,oi=>mock.ans[n]===oi?"picked":"")}
+    <div class="row2"><button class="ghost" id="mPrev" ${n===0?"disabled":""}>前の問題</button><button class="primary" id="mNext">${n===59?"見直し一覧へ":"次の問題"}</button></div>
+    <div class="grid60" aria-label="問題一覧">${mock.qs.map((_,i)=>`<button data-j="${i}" class="${mock.ans[i]!==null?"done":""} ${i===n?"cur":""}">${i+1}</button>`).join("")}</div>
+    <div id="submitArea">${mock.confirm
+      ?`<div class="explain"><b>採点していい？</b> 未解答が${60-answered}問あるよ。採点すると解答は変更できない。</div><div class="row2" style="margin-top:8px"><button class="ghost" id="mCancel">戻って解く</button><button class="danger" id="mGo">採点する</button></div>`
+      :`<button class="ghost" id="mSubmit">解答を終了して採点する</button>`}</div>`;
+  tick();
+  box.querySelectorAll(".opt").forEach(b=>b.addEventListener("click",()=>{mock.ans[n]=+b.dataset.i;renderMock()}));
+  document.getElementById("mPrev").addEventListener("click",()=>{mock.cur--;mock.confirm=false;renderMock()});
+  document.getElementById("mNext").addEventListener("click",()=>{if(n<59){mock.cur++;}mock.confirm=n===59;renderMock()});
+  box.querySelectorAll(".grid60 button").forEach(b=>b.addEventListener("click",()=>{mock.cur=+b.dataset.j;mock.confirm=false;renderMock()}));
+  const s=document.getElementById("mSubmit"); if(s) s.addEventListener("click",()=>{mock.confirm=true;renderMock()});
+  const c=document.getElementById("mCancel"); if(c) c.addEventListener("click",()=>{mock.confirm=false;renderMock()});
+  const g=document.getElementById("mGo"); if(g) g.addEventListener("click",()=>finishMock(false));
+}
+function finishMock(timeout){
+  track("mock-done");
+  clearInterval(timerId);
+  const m=mock; mock=null;
+  let score=0; const byF={};
+  m.qs.forEach((q,i)=>{const ok=m.ans[i]===q.a; if(ok)score++; byF[q.f]=byF[q.f]||{c:0,n:0}; byF[q.f].n++; if(ok)byF[q.f].c++; record(q,ok)});
+  const d=new Date(); stats.mocks.push({d:`${d.getMonth()+1}/${d.getDate()}`,s:score}); stats.mocks=stats.mocks.slice(-20); saveStats();
+  const pass=score>=36;
+  const wrong=m.qs.map((q,i)=>({q,i,a:m.ans[i]})).filter(x=>x.a!==x.q.a);
+  const box=document.getElementById("mockBox");
+  box.innerHTML=`<div class="qmeta"><span>${timeout?"時間切れで採点したよ":"模擬試験の結果"}</span><span>60問</span></div>
+    <div class="score">${score} <span style="font-size:1rem">/ 60点</span></div>
+    <div><span class="pass ${pass?"ok":"ng"}">${pass?"合格ライン到達":"合格ラインまであと"+(36-score)+"点"}</span></div>
+    ${(m=>MAS?say(pass?"oimo":"mallow",pass?"cheer":"smile",m):`<p style="margin:0">${m}</p>`)(score>=48?"かなり仕上がってる。本番も落ち着いていけば大丈夫。":pass?"合格ラインは超えてる。本番は緊張で点が下がりやすいから、8割（48点）を目標に間違えた問題をつぶそう。":"まずは正答率の低い分野からミニ問題で復習しよう。間違えた問題は自動で「間違えた問題」に入ってるよ。")}
+    <div class="bars">${FIELDS.map(f=>{const b=byF[f.id]||{c:0,n:0};const p=b.n?Math.round(b.c/b.n*100):0;return `<div class="bar"><span>${f.short}</span><div class="track"><div class="fill ${p<60?"low":""}" style="width:${p}%"></div></div><span class="num">${b.c} / ${b.n}</span></div>`}).join("")}</div>
+    <div class="row2"><button class="primary" id="mAgain">もう一回受ける</button><button class="ghost" id="mWrong">間違えた問題を解く</button></div>
+    <h3 style="font-size:1rem;margin-top:4px">間違えた問題の解説（${wrong.length}問）</h3>
+    <div class="review">${wrong.map(x=>`<div class="ritem"><div class="qmeta"><span>第${x.i+1}問・${fshort(x.q.f)}</span></div>
+      <div>${x.q.q}</div>
+      <div class="ans">あなたの答え：<span class="ng">${x.a===null?"未解答":x.q.o[x.a]}</span>　正解：<span class="ok">${x.q.o[x.q.a]}</span></div>
+      <div class="explain">${x.q.e}</div></div>`).join("")||"<p>全問正解！</p>"}</div>`;
+  document.getElementById("mAgain").addEventListener("click",()=>{box.hidden=true;document.getElementById("mockIntro").hidden=false;renderMockLast();document.getElementById("startMock").click()});
+  document.getElementById("mWrong").addEventListener("click",()=>{box.hidden=true;document.getElementById("mockIntro").hidden=false;sel="wrong";qcount=30;document.querySelectorAll("#countChips .chip").forEach(c=>c.setAttribute("aria-pressed",c.dataset.n==="30"?"true":"false"));showTab("quiz");document.getElementById("quizBox").hidden=true;document.getElementById("quizSetup").hidden=false;startQuiz()});
+  recMock(score);
+  box.scrollIntoView({block:"start"});
+}
+
+/* ---- 苦手チェック ---- */
+function renderWeak(){
+  const rows=FIELDS.map(f=>{const s=stats.f[f.id]||{n:0,c:0};return {...f,n:s.n,c:s.c,p:s.n?Math.round(s.c/s.n*100):null}});
+  document.getElementById("bars").innerHTML=rows.map(r=>`<div class="bar"><span>${r.short}</span>
+    <div class="track"><div class="fill ${r.p!==null&&r.p<60?"low":""}" style="width:${r.p??0}%"></div></div>
+    <span class="num">${r.p===null?"未挑戦":r.p+"%"}</span></div>`).join("");
+  const tried=rows.filter(r=>r.n>0);
+  const adv=document.getElementById("weakAdvice");
+  recWeak(tried.length?tried.slice().sort((a,b)=>a.p-b.p||b.n-a.n)[0]:null);
+  if(!tried.length){adv.innerHTML=`<div class="explain">まだ記録がないよ。「ミニ問題」か「模擬試験」で解くと、ここに分野ごとの正答率が出る。<br>まずはライフプランニングから始めてみよう。${FIELDS[0].tip}</div>`;return}
+  const untried=rows.filter(r=>r.n===0);
+  const weakest=tried.slice().sort((a,b)=>a.p-b.p||b.n-a.n)[0];
+  let html=`<div class="explain"><b>次にやるなら「${weakest.name}」</b>（正答率${weakest.p}%・${weakest.n}問）<br>${weakest.tip}</div>`;
+  if(stats.wrong.length) html+=`<p class="foot" style="margin-top:8px">解き直し待ちの問題が${stats.wrong.length}問あるよ。「ミニ問題」の「間違えた問題」から解ける。</p>`;
+  if(untried.length) html+=`<p class="foot">まだ解いていない分野：${untried.map(r=>r.short).join("・")}</p>`;
+  adv.innerHTML=html;
+}
+/* ---- 学科／実技の切り替え ---- */
+/* 実技（日本FP協会：資産設計提案業務）の事例問題。すべてオリジナル。資料(mat)を読んで答える三択。 */
+const JCASES = [
+ {id:"j-life", f:"life", title:"山田さん家のキャッシュフロー表と6つの係数",
+  mat:`<p>会社員の山田さん（40歳）一家のキャッシュフロー表の一部と、係数早見表（年利2%・期間10年）。</p>
+  <div class="tbl"><table><thead><tr><th>（単位：万円）</th><th>変動率</th><th>基準年</th><th>1年後</th><th>2年後</th><th>3年後</th></tr></thead>
+  <tbody><tr><th>給与収入（夫）</th><td>1%</td><td>500</td><td>505</td><td>510</td><td>515</td></tr>
+  <tr><th>基本生活費</th><td>1%</td><td>280</td><td>283</td><td>286</td><td>（ア）</td></tr>
+  <tr><th>年間収支</th><td></td><td>40</td><td>50</td><td>…</td><td>…</td></tr>
+  <tr><th>金融資産残高</th><td>1%</td><td>600</td><td>（イ）</td><td>…</td><td>…</td></tr></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th>係数（2%・10年）</th><th>値</th></tr></thead>
+  <tbody><tr><th>終価係数</th><td>1.2190</td></tr><tr><th>現価係数</th><td>0.8203</td></tr><tr><th>減債基金係数</th><td>0.0913</td></tr>
+  <tr><th>資本回収係数</th><td>0.1113</td></tr><tr><th>年金終価係数</th><td>10.9497</td></tr><tr><th>年金現価係数</th><td>8.9826</td></tr></tbody></table></div>
+  <p class="foot">※計算結果は万円未満を四捨五入する。金融資産残高は「前年の残高×（1＋運用利率）＋その年の年間収支」で計算する。</p>`,
+  qs:[
+   {q:"キャッシュフロー表の空欄（ア）、3年後の基本生活費はいくら？",o:["286万円","288万円","290万円"],a:1,e:"基準年の280万円を1%で3年間増やすので、280×1.01×1.01×1.01＝288.48…→288万円。前年の数字に1.01を掛けるのではなく、基準年から計算するのがポイント。"},
+   {q:"キャッシュフロー表の空欄（イ）、1年後の金融資産残高はいくら？",o:["650万円","656万円","662万円"],a:1,e:"600×（1＋0.01）＋50＝656万円。前年の残高に運用益を足してから、その年の年間収支を足す。"},
+   {q:"山田さんは、年利2%で毎年一定額を積み立てて10年後に200万円を準備したい。毎年の積立額はいくら？",o:["182,600円","200,000円","222,600円"],a:0,e:"目標額から毎年の積立額を求めるのは減債基金係数。200万円×0.0913＝182,600円。"},
+   {q:"山田さんの父は、退職金1,000万円を年利2%で運用しながら10年間で均等に取り崩したい。毎年受け取れる金額はいくら？",o:["913,000円","1,000,000円","1,113,000円"],a:2,e:"今ある元本から毎年の受取額を求めるのは資本回収係数。1,000万円×0.1113＝1,113,000円。運用しながら取り崩すので、単純に10で割った額より多くなる。"}
+  ]},
+ {id:"j-risk", f:"risk", title:"佐藤さんの生命保険証券",
+  mat:`<p>会社員の佐藤さん（45歳）が加入している定期保険特約付終身保険の内容。契約者・被保険者は佐藤さん、死亡保険金受取人は妻。</p>
+  <div class="tbl"><table><thead><tr><th>保障の内容</th><th>保険金額・給付金額</th></tr></thead>
+  <tbody><tr><th>終身保険（主契約）</th><td>300万円</td></tr>
+  <tr><th>定期保険特約</th><td>2,000万円</td></tr>
+  <tr><th>特定疾病保障定期保険特約</th><td>500万円</td></tr>
+  <tr><th>傷害特約</th><td>500万円</td></tr>
+  <tr><th>疾病入院特約</th><td>日額5,000円（入院1日目から）</td></tr></tbody></table></div>
+  <p class="foot">※特定疾病保障定期保険特約は、がん・急性心筋梗塞・脳卒中で所定の状態になったときに保険金が支払われ、特定疾病以外で死亡した場合も同額の死亡保険金が支払われる。傷害特約は不慮の事故で死亡したときに支払われる。各特約の保険期間中とする。</p>`,
+  qs:[
+   {q:"佐藤さんが交通事故で死亡した場合、支払われる死亡保険金の合計はいくら？",o:["2,300万円","2,800万円","3,300万円"],a:2,e:"終身300万＋定期保険特約2,000万＋特定疾病保障定期保険特約500万（特定疾病以外の死亡でも支払われる）＋傷害特約500万（不慮の事故）＝3,300万円。"},
+   {q:"佐藤さんが初めてがんと診断され、所定の状態に該当し、10日間入院した（手術なし）。この保険から受け取れる金額の合計はいくら？",o:["50,000円","5,000,000円","5,050,000円"],a:2,e:"特定疾病保険金500万円＋疾病入院給付金5,000円×10日＝5万円で、合計505万円。生前に特定疾病保険金を受け取ると、その特約は消滅する。"},
+   {q:"佐藤さんが死亡し、妻が受け取った死亡保険金にかかる税金はどれ？",o:["所得税・住民税","相続税","贈与税"],a:1,e:"契約者（保険料を払う人）と被保険者が同じ人の死亡保険金は相続税の対象。相続人が受け取る場合は「500万円×法定相続人の数」の非課税枠もある。"}
+  ]},
+ {id:"j-kinyu", f:"kinyu", title:"株式の投資指標と外貨預金",
+  mat:`<p>鈴木さんが検討している上場会社X社の株式のデータと、米ドル建て外貨預金の為替レート。</p>
+  <div class="tbl"><table><thead><tr><th>X社のデータ</th><th>値</th></tr></thead>
+  <tbody><tr><th>株価</th><td>2,400円</td></tr><tr><th>1株当たり純利益</th><td>160円</td></tr>
+  <tr><th>1株当たり純資産</th><td>2,000円</td></tr><tr><th>1株当たり年間配当金</th><td>48円</td></tr></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th>米ドル（1ドルあたり）</th><th>TTS</th><th>TTM</th><th>TTB</th></tr></thead>
+  <tbody><tr><th>預入時</th><td>151円</td><td>150円</td><td>149円</td></tr><tr><th>満期時</th><td>156円</td><td>155円</td><td>154円</td></tr></tbody></table></div>
+  <p class="foot">※外貨預金の利息と税金は考えないものとする。</p>`,
+  qs:[
+   {q:"X社株式のPER（株価収益率）はいくら？",o:["12倍","15倍","20倍"],a:1,e:"PER＝株価÷1株当たり純利益＝2,400÷160＝15倍。"},
+   {q:"X社株式のPBR（株価純資産倍率）はいくら？",o:["0.83倍","1.2倍","1.5倍"],a:1,e:"PBR＝株価÷1株当たり純資産＝2,400÷2,000＝1.2倍。"},
+   {q:"X社株式の配当利回りはいくら？",o:["2.0%","3.0%","3.3%"],a:0,e:"配当利回り＝1株当たり年間配当金÷株価×100＝48÷2,400×100＝2.0%。"},
+   {q:"鈴木さんが円を1万ドルの外貨預金に換えて預け入れ、満期時に円に戻した。円ベースでの損益はいくら？",o:["30,000円の利益","40,000円の利益","50,000円の利益"],a:0,e:"預け入れはTTSで151万円が必要、引き出しはTTBで154万円になるので、154万−151万＝3万円の利益。預け入れはTTS、引き出しはTTBを使う。"}
+  ]},
+ {id:"j-tax", f:"tax", title:"会社員の高橋さんの所得と医療費控除",
+  mat:`<p>会社員の高橋さん（38歳）のその年の収入と支出。給与以外の収入はない。</p>
+  <div class="tbl"><table><tbody><tr><th>給与収入</th><td>600万円</td></tr>
+  <tr><th>支払った医療費</th><td>32万円</td></tr><tr><th>医療費のうち保険金で補てんされた額</th><td>8万円</td></tr></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th>給与等の収入金額</th><th>給与所得控除額</th></tr></thead>
+  <tbody><tr><th>190万円以下</th><td>65万円</td></tr><tr><th>190万円超 360万円以下</th><td>収入金額×30%＋8万円</td></tr>
+  <tr><th>360万円超 660万円以下</th><td>収入金額×20%＋44万円</td></tr><tr><th>660万円超 850万円以下</th><td>収入金額×10%＋110万円</td></tr>
+  <tr><th>850万円超</th><td>195万円（上限）</td></tr></tbody></table></div>
+  <p class="foot">※この事例の計算は上の表を使う。</p>`,
+  qs:[
+   {q:"高橋さんの給与所得の金額はいくら？",o:["420万円","436万円","456万円"],a:1,e:"給与所得控除額＝600万×20%＋44万＝164万円。給与所得＝600万−164万＝436万円。"},
+   {q:"高橋さんの医療費控除の額はいくら？",o:["14万円","22万円","24万円"],a:0,e:"支払った医療費32万−保険金で補てんされた8万−10万（総所得金額等が200万円以上なので10万円）＝14万円。"},
+   {q:"高橋さんが医療費控除を受けるために必要な手続きはどれ？",o:["勤務先の年末調整で申告する","確定申告をする","手続きは不要で自動的に適用される"],a:1,e:"医療費控除は年末調整では受けられないので、会社員でも確定申告が必要。"}
+  ]},
+ {id:"j-fudosan", f:"fudosan", title:"伊藤さんが買いたい土地の建築制限",
+  mat:`<p>伊藤さんが自宅を建てるために購入を検討している土地。</p>
+  <div class="tbl"><table><tbody><tr><th>敷地面積</th><td>200㎡</td></tr><tr><th>用途地域</th><td>第一種住居地域</td></tr>
+  <tr><th>指定建ぺい率</th><td>60%</td></tr><tr><th>指定容積率</th><td>300%</td></tr>
+  <tr><th>前面道路の幅員</th><td>6m（この道路だけに接している）</td></tr><tr><th>前面道路幅員による容積率の制限</th><td>前面道路の幅員×4/10</td></tr></tbody></table></div>
+  <p class="foot">※角地による緩和、防火地域などの規制は考えないものとする。</p>`,
+  qs:[
+   {q:"この土地に建てられる建築物の建築面積の最高限度は？",o:["120㎡","200㎡","240㎡"],a:0,e:"建築面積の上限＝敷地面積×建ぺい率＝200㎡×60%＝120㎡。"},
+   {q:"この土地に建てられる建築物の延べ面積の最高限度は？",o:["400㎡","480㎡","600㎡"],a:1,e:"前面道路の幅員が12m未満なので、6m×4/10＝240%と指定容積率300%の小さいほうの240%を使う。200㎡×240%＝480㎡。"},
+   {q:"この土地に自宅を建てて住んだ場合、固定資産税の課税標準はどうなる？",o:["2分の1に軽減される","3分の1に軽減される","6分の1に軽減される"],a:2,e:"住宅用地のうち200㎡以下の部分（小規模住宅用地）は、固定資産税の課税標準が6分の1になる。この土地は200㎡なので全体が対象。"}
+  ]},
+ {id:"j-sozoku", f:"sozoku", title:"中村さん一家の相続",
+  mat:`<p>中村Aさんが亡くなった。親族関係は次のとおり。</p>
+  <ul class="fam"><li>配偶者：妻B（存命）</li><li>長男C（存命）</li><li>長女D（Aさんより先に死亡）</li><li>Dの子：孫E・孫F（ともに存命）</li></ul>
+  <p class="foot">※相続の放棄をした人はいない。養子はいない。</p>`,
+  qs:[
+   {q:"Aさんの相続における法定相続人は何人？",o:["3人","4人","5人"],a:1,e:"妻B、長男C、そして先に亡くなった長女Dの代わりに代襲相続する孫E・孫Fの4人。"},
+   {q:"孫Eの法定相続分は？",o:["4分の1","6分の1","8分の1"],a:2,e:"配偶者が2分の1、子全体で2分の1。子はCとDの2人なので各4分の1。Dの4分の1をEとFで分けるので、Eは8分の1。"},
+   {q:"相続税の遺産に係る基礎控除額はいくら？",o:["4,800万円","5,400万円","6,000万円"],a:1,e:"3,000万円＋600万円×法定相続人4人＝5,400万円。"},
+   {q:"相続人が受け取った死亡保険金の非課税限度額はいくら？",o:["1,500万円","2,000万円","2,500万円"],a:1,e:"500万円×法定相続人の数（4人）＝2,000万円。"}
+  ]}
+];
+const FACTS={gakka:document.getElementById("facts").innerHTML,
+  jitsugi:`<div class="fact"><b>20問</b><span>実技（三択・FP協会）</span></div><div class="fact"><b>60分</b><span>実技の試験時間</span></div><div class="fact"><b>60点〜</b><span>合格ライン（100点満点）</span></div>`};
+function setMode(m){
+  stats.mode=m; saveStats();
+  document.querySelectorAll(".mode button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.mode===m?"true":"false"));
+  document.getElementById("facts").innerHTML=FACTS[m];
+  document.querySelector(".tabs").hidden=m!=="gakka";
+  if(m==="gakka"){document.getElementById("panel-jitsugi").hidden=true;const cur=document.querySelector('.tabs [aria-selected="true"]');showTab(cur?cur.dataset.tab:"plan")}
+  else{["plan","quiz","mock","weak"].forEach(t=>document.getElementById("panel-"+t).hidden=true);document.getElementById("panel-jitsugi").hidden=false;renderJList()}
+}
+document.querySelectorAll(".mode button").forEach(b=>b.addEventListener("click",()=>{track("mode-"+b.dataset.mode);setMode(b.dataset.mode)}));
+// 教材紹介（Amazon）とnoteへのリンクのクリック数
+document.addEventListener("click",e=>{const a=e.target.closest("a.item[data-k],.cta a");if(a)track(a.dataset.k?"amazon-"+a.dataset.k:"note")});
+
+/* ---- 実技の事例 ---- */
+let jc=null;
+function renderJList(){
+  document.getElementById("jList").innerHTML=JCASES.map(c=>{const r=stats.jc[c.id];
+    return `<button class="case" data-c="${c.id}"><span class="k">${fshort(c.f)}</span><b>${c.title}</b><span class="best ${r&&r.best===c.qs.length?"ok":""}">${c.qs.length}問<br>${r?`ベスト ${r.best}/${c.qs.length}`:"未挑戦"}</span></button>`}).join("");
+  const v=document.getElementById("jitsugi").value;
+  document.getElementById("jNote").textContent=(v==="kojin"||v==="hoken")
+    ?"きんざい（個人資産相談業務／保険顧客資産相談業務）の事例は準備中。数字を資料から拾う考え方は共通なので、ここの事例も練習になるよ。"
+    :"事例はすべてオリジナル。学科の1周目が終わった分野から解くのがおすすめ。きんざいの科目の事例は準備中。";
+}
+document.getElementById("jList").addEventListener("click",e=>{const b=e.target.closest(".case");if(b)startCase(b.dataset.c)});
+function startCase(id){
+  track("jitsugi-start-"+id);
+  const c=JCASES.find(x=>x.id===id); jc={c,i:0,ok:0};
+  document.getElementById("jIntro").hidden=true;
+  document.getElementById("promoJ").innerHTML="";
+  const box=document.getElementById("jBox"); box.hidden=false;
+  box.innerHTML=`<div class="qmeta"><span>実技・${fname(c.f)}</span><button class="chip" id="jBack" style="padding:2px 10px">一覧へ</button></div>
+    <h2>${c.title}</h2>
+    <details class="mat" open><summary>資料</summary>${c.mat}</details>
+    <div id="jQ" aria-live="polite" style="display:grid;gap:12px"></div>`;
+  document.getElementById("jBack").addEventListener("click",backToList);
+  showJQ(); box.scrollIntoView({block:"start"});
+}
+function backToList(){document.getElementById("jBox").hidden=true;document.getElementById("promoJ").innerHTML="";document.getElementById("jIntro").hidden=false;renderJList()}
+function showJQ(){
+  const q=jc.c.qs[jc.i], el=document.getElementById("jQ");
+  el.innerHTML=`<div class="qmeta"><span>問${jc.i+1}</span><span>${jc.i+1} / ${jc.c.qs.length}</span></div>
+    <div class="qtext">${q.q}</div>
+    <div class="opts">${q.o.map((o,k)=>`<button class="opt" data-i="${k}">${k+1}．${o}</button>`).join("")}</div><div id="jAfter"></div>`;
+  el.querySelectorAll(".opt").forEach(b=>b.addEventListener("click",()=>answerJ(+b.dataset.i)));
+}
+function answerJ(i){
+  const q=jc.c.qs[jc.i], el=document.getElementById("jQ"), ok=i===q.a; if(ok)jc.ok++;
+  el.querySelectorAll(".opt").forEach(b=>{const k=+b.dataset.i;b.disabled=true;if(k===q.a)b.classList.add("right");else if(k===i)b.classList.add("wrong")});
+  const last=jc.i===jc.c.qs.length-1;
+  document.getElementById("jAfter").innerHTML=`${MAS?(ok?say("oimo","cheer",pick(["正解！資料の読み方ばっちり","その調子！計算もできてる","さすが！"])):say("mallow","smile",pick(["おしい！解説の式をもう一度たどってみよう","資料のどの数字を使うか、解説で確認しよう","大丈夫、もう一回解けば覚えられるよ"]))):""}<div class="explain"><b>${ok?"正解！":"おしい、不正解。"}</b> ${q.e}</div>
+    <button class="primary" id="jNext" style="margin-top:12px">${last?"結果を見る":"次の問題へ"}</button>`;
+  document.getElementById("jNext").addEventListener("click",()=>{if(last)resultJ();else{jc.i++;showJQ()}});
+  document.getElementById("jNext").focus();
+}
+function resultJ(){
+  track("jitsugi-done");
+  const c=jc.c,n=c.qs.length,ok=jc.ok,pct=Math.round(ok/n*100);
+  const r=stats.jc[c.id]||{best:0,n:0}; r.best=Math.max(r.best,ok); r.n++; stats.jc[c.id]=r; saveStats();
+  const next=JCASES[(JCASES.indexOf(c)+1)%JCASES.length];
+  const msg=ok===n?"全問正解！この形の資料はもう大丈夫。":pct>=60?"合格ラインは超えてる。間違えた問題の解説だけ読み直そう。":"資料のどの数字を使うかがポイント。学科の「"+fname(c.f)+"」を復習してからもう一度解いてみよう。";
+  document.getElementById("jQ").innerHTML=`<div class="qmeta"><span>この事例の結果</span><span>${n}問</span></div>
+    <div class="score">${ok} / ${n}</div>${MAS?say(pct>=60?"oimo":"mallow",pct>=60?"cheer":"smile",msg):`<p style="margin:0">${msg}</p>`}
+    <button class="primary" id="jNextCase">次の事例へ：${next.title}</button>
+    <div class="row2"><button class="ghost" id="jAgain">もう一度解く</button><button class="ghost" id="jList2">事例の一覧へ</button></div>`;
+  document.getElementById("jNextCase").addEventListener("click",()=>startCase(next.id));
+  document.getElementById("jAgain").addEventListener("click",()=>startCase(c.id));
+  document.getElementById("jList2").addEventListener("click",backToList);
+  recJ(pct,c);
+}
+function recJ(pct,c){
+  if(!CFG.promo) return;
+  const keys=pct<60?["text"]:["jitsugi_fp","mondai"];
+  const lead=pct<60?`正答率${pct}%。テキストの「${fname(c.f)}」の章で計算の式を確認してから解き直すと、実技の点数も上がるよ。`:`正答率${pct}%でいい感じ。問題集にはFP協会の実技の問題も載っているから、事例の量を増やして本番の形式に慣れよう。`;
+  document.getElementById("promoJ").innerHTML=recBox(avail(keys).slice(0,1),lead,false);
+}
+if(stats.mode==="jitsugi") setMode("jitsugi");
+
+/* タイトルをタップしたら、いつでもトップ（学科のプラン）に戻る。進行中の模擬試験はそのまま残る */
+document.getElementById("home").addEventListener("click",e=>{
+  e.preventDefault();
+  document.getElementById("quizBox").hidden=true; document.getElementById("quizSetup").hidden=false; document.getElementById("promoQuiz").innerHTML="";
+  document.getElementById("jBox").hidden=true; document.getElementById("jIntro").hidden=false; document.getElementById("promoJ").innerHTML="";
+  setMode("gakka"); showTab("plan"); renderChips();
+  window.scrollTo({top:0,behavior:"smooth"});
+});
+
+const resetArea=document.getElementById("resetArea");
+resetArea.addEventListener("click",e=>{
+  const id=e.target.id;
+  if(id==="resetStats") resetArea.innerHTML=`<div class="explain"><b>正答率・間違えた問題・模擬試験の記録をすべて消す？</b></div><div class="row2" style="margin-top:8px"><button class="ghost" id="rNo">やめる</button><button class="danger" id="rYes">消す</button></div>`;
+  if(id==="rNo") resetArea.innerHTML=`<button class="ghost" id="resetStats">記録をリセットする</button>`;
+  if(id==="rYes"){stats={f:{},wrong:[],mocks:[],jc:{},jitsugi:stats.jitsugi,mode:stats.mode};renderJList();saveStats();renderWeak();renderChips();resetArea.innerHTML=`<p class="foot">記録をリセットしたよ。</p><button class="ghost" id="resetStats">記録をリセットする</button>`}
+});
+</script>
+
+</body>
+</html>
