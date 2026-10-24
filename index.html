@@ -483,33 +483,37 @@ const CFG = {"mascot": true, "promo": {"tag": "kentankekke-22", "disclosure": "A
 function dogSVG(kind,mood){
   const P=kind==="oimo"
     ?{fur:"#c98a52",dark:"#a8693a",muzzle:"#e2b07e",line:"#7a4a26",hood:"#5d6470",hoodIn:"#f4efe9"}
-    :{fur:"#fffdf8",dark:"#f1e9df",muzzle:"#ffffff",line:"#b9aea4",hood:null};
+    :{fur:"#fffdf8",dark:"#f1e9df",muzzle:"#ffffff",line:"#b9aea4",hood:null,body:"#f7f0e8",collar:"#f2a7b8"};
   // もこもこの輪郭（同じ形を太線で下に敷いて、フチ取りにする）
-  const puffs=[[60,92,26],[40,98,13],[80,98,13],[60,104,14],
-    [60,50,30],[38,40,14],[82,40,14],[48,26,13],[72,26,13],[60,22,14],[34,58,12],[86,58,12]];
+  const body=[[60,92,22],[44,100,11],[76,100,11],[60,104,13]];
+  const puffs=[[60,50,30],[38,40,14],[82,40,14],[48,26,13],[72,26,13],[60,22,14],[34,58,12],[86,58,12]];
   const ears=[[30,64,15],[90,64,15],[27,78,11],[93,78,11]];
   const c=(a,f,extra="")=>a.map(([x,y,r])=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${f}" ${extra}/>`).join("");
-  const outline=c(puffs.concat(ears),P.line,`stroke="${P.line}" stroke-width="5"`);
+  // 体→耳→頭の順にそれぞれフチ取りして重ね、顔と体の境目に線が出るようにする
+  const ol=a=>c(a,P.line,`stroke="${P.line}" stroke-width="5"`);
+  const collar=P.collar?`<path d="M42 72 Q60 81 78 72 L78 78 Q60 88 42 78Z" fill="${P.collar}" stroke="${P.line}" stroke-width="2"/><circle cx="60" cy="84" r="3.6" fill="#f7d36b" stroke="${P.line}" stroke-width="1.5"/>`:"";
+  const bodyL=ol(body)+c(body,P.body||P.fur), headL=ol(ears)+c(ears,P.dark)+ol(puffs)+c(puffs,P.fur);
   const hood=P.hood?`<path d="M33 38 Q35 13 60 11 Q85 13 87 38 Q60 29 33 38Z" fill="${P.hood}"/>
     <circle cx="36" cy="17" r="9" fill="${P.hood}"/><circle cx="84" cy="17" r="9" fill="${P.hood}"/>
     <circle cx="36" cy="17" r="9" fill="none" stroke="${P.line}" stroke-width="2.5"/><circle cx="84" cy="17" r="9" fill="none" stroke="${P.line}" stroke-width="2.5"/>
     <path d="M33 38 Q35 13 60 11 Q85 13 87 38" fill="none" stroke="${P.line}" stroke-width="2.5"/>
-    <path d="M36 84 Q60 94 84 84 L84 90 Q60 100 36 90Z" fill="${P.hood}"/>`:"";
+    <path d="M38 82 Q60 92 82 82 L82 89 Q60 99 38 89Z" fill="${P.hood}"/>`:"";
   const eyes=mood==="happy"||mood==="cheer"
     ?`<path d="M44 58 Q49 52 54 58" fill="none" stroke="#2b2420" stroke-width="3" stroke-linecap="round"/><path d="M66 58 Q71 52 76 58" fill="none" stroke="#2b2420" stroke-width="3" stroke-linecap="round"/>`
     :`<circle cx="49" cy="57" r="5.6" fill="#2b2420"/><circle cx="71" cy="57" r="5.6" fill="#2b2420"/><circle cx="50.6" cy="55.4" r="2" fill="#fff"/><circle cx="72.6" cy="55.4" r="2" fill="#fff"/>`;
   const mouth=mood==="cheer"
     ?`<path d="M53 72 Q60 82 67 72Z" fill="#e87d7d" stroke="#2b2420" stroke-width="2" stroke-linejoin="round"/>`
     :`<path d="M54 71 Q57 75 60 71 Q63 75 66 71" fill="none" stroke="#2b2420" stroke-width="2.2" stroke-linecap="round"/>`;
-  const arms=mood==="cheer"?c([[30,86,8],[90,86,8]],P.fur,`stroke="${P.line}" stroke-width="2.5"`):"";
+  const arms=mood==="cheer"?c([[36,88,7],[84,88,7]],P.fur,`stroke="${P.line}" stroke-width="2.5"`):"";
   return `<svg viewBox="0 0 120 120" class="dog dog-${kind}" role="img" aria-label="${kind==="oimo"?"おいもくん":"マシュマロくん"}">
     <ellipse cx="60" cy="115" rx="30" ry="4" fill="#000" opacity=".08"/>
-    ${outline}${c(ears,P.dark)}${c(puffs,P.fur)}
+    ${bodyL}${collar}${arms}
+    <g transform="translate(60 42) scale(.84) translate(-60 -52)">${headL}
     ${hood}
     <ellipse cx="60" cy="68" rx="14" ry="10" fill="${P.muzzle}"/>
     <ellipse cx="42" cy="68" rx="6" ry="3.6" fill="#f4a3a3" opacity=".7"/><ellipse cx="78" cy="68" rx="6" ry="3.6" fill="#f4a3a3" opacity=".7"/>
     ${eyes}<ellipse cx="60" cy="65" rx="5.2" ry="4" fill="#2b2420"/><ellipse cx="58.5" cy="63.8" rx="1.6" ry="1" fill="#fff" opacity=".7"/>
-    ${mouth}${arms}
+    ${mouth}</g>
   </svg>`;
 }
 
