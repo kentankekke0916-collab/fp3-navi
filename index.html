@@ -149,6 +149,7 @@ a.item:hover{border-color:var(--accent)}
 .tbl th{text-align:left;font-weight:700}
 .tbl thead th{text-align:center;background:var(--accent-soft)}
 .fam{margin:8px 0 0;padding-left:1.3em;font-size:.9rem}
+h1 a{color:inherit;text-decoration:none}
 /* 独学ナビ用：おいもくん・マシュマロくんのかわいいテーマ（build.py で original 版だけに入る） */
 :root{
   --bg:#fff7ef; --surface:#ffffff; --ink:#4a3328; --muted:#8a7366; --line:#f0e0d2;
@@ -199,7 +200,7 @@ h1{font-size:1.9rem;color:var(--accent);text-align:center}
 <div class="wrap">
   <header>
     <div class="eyebrow">独学でFP3級を目指す人のためのツール</div>
-    <h1>FP3級 独学ナビ</h1>
+    <h1><a href="#" id="home" aria-label="トップ画面に戻る">FP3級 独学ナビ</a></h1>
     <p class="lead">試験日から逆算した学習プランを作って、6分野180問のオリジナル問題と本番形式の模擬試験で苦手をつぶす。スキマ時間に毎日ちょっとずつ使う前提のツールだよ。</p>
     <div id="mascotHead"></div>
     <div class="facts" id="facts">
@@ -994,6 +995,15 @@ function recJ(pct,c){
   document.getElementById("promoJ").innerHTML=recBox(avail(keys).slice(0,1),lead,false);
 }
 if(stats.mode==="jitsugi") setMode("jitsugi");
+
+/* タイトルをタップしたら、いつでもトップ（学科のプラン）に戻る。進行中の模擬試験はそのまま残る */
+document.getElementById("home").addEventListener("click",e=>{
+  e.preventDefault();
+  document.getElementById("quizBox").hidden=true; document.getElementById("quizSetup").hidden=false; document.getElementById("promoQuiz").innerHTML="";
+  document.getElementById("jBox").hidden=true; document.getElementById("jIntro").hidden=false; document.getElementById("promoJ").innerHTML="";
+  setMode("gakka"); showTab("plan"); renderChips();
+  window.scrollTo({top:0,behavior:"smooth"});
+});
 
 const resetArea=document.getElementById("resetArea");
 resetArea.addEventListener("click",e=>{
