@@ -129,6 +129,26 @@ a.item:hover{border-color:var(--accent)}
 .foot{font-size:.75rem;color:var(--muted);line-height:1.6;margin:0}
 @media (max-width:420px){.form{grid-template-columns:1fr}.facts .fact b{font-size:1.05rem}.tabs button{font-size:.8rem}}
 @media (prefers-reduced-motion:no-preference){.fill{transition:width .4s ease}}
+.mode{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mode button{border:2px solid var(--line);background:var(--surface);color:var(--muted);font:inherit;font-weight:700;padding:8px 6px;border-radius:12px;cursor:pointer;line-height:1.4;min-width:0}
+.mode button small{display:block;font-weight:400;font-size:.72rem}
+.mode button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+.cases{display:grid;gap:8px}
+.case{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;text-align:left;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;padding:12px;border-radius:12px;cursor:pointer;min-width:0}
+.case:hover{border-color:var(--accent)}
+.case .k{font-size:.72rem;font-weight:700;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:2px 10px;white-space:nowrap}
+.case b{font-family:var(--f-display);font-size:.95rem;line-height:1.4}
+.case .best{font-size:.75rem;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+.case .best.ok{color:var(--ok);font-weight:700}
+.mat{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--bg);min-width:0}
+.mat summary{font-weight:700;color:var(--accent);cursor:pointer}
+.mat p{margin:8px 0 0;font-size:.9rem}
+.tbl{overflow-x:auto;margin-top:8px;-webkit-overflow-scrolling:touch}
+.tbl table{border-collapse:collapse;font-size:.82rem;white-space:nowrap;background:var(--surface)}
+.tbl th,.tbl td{border:1px solid var(--line);padding:5px 8px;text-align:right;font-variant-numeric:tabular-nums}
+.tbl th{text-align:left;font-weight:700}
+.tbl thead th{text-align:center;background:var(--accent-soft)}
+.fam{margin:8px 0 0;padding-left:1.3em;font-size:.9rem}
 /* 独学ナビ用：おいもくん・マシュマロくんのかわいいテーマ（build.py で original 版だけに入る） */
 :root{
   --bg:#fff7ef; --surface:#ffffff; --ink:#4a3328; --muted:#8a7366; --line:#f0e0d2;
@@ -182,13 +202,18 @@ h1{font-size:1.9rem;color:var(--accent);text-align:center}
     <h1>FP3級 独学ナビ</h1>
     <p class="lead">試験日から逆算した学習プランを作って、6分野180問のオリジナル問題と本番形式の模擬試験で苦手をつぶす。スキマ時間に毎日ちょっとずつ使う前提のツールだよ。</p>
     <div id="mascotHead"></div>
-    <div class="facts">
+    <div class="facts" id="facts">
       <div class="fact"><b>60問</b><span>学科（○×30＋三択30）</span></div>
       <div class="fact"><b>120分</b><span>学科の試験時間</span></div>
       <div class="fact"><b>36点〜</b><span>合格ライン（6割）</span></div>
     </div>
     <p class="note">学科と実技の両方に合格して FP3級。実技は日本FP協会（資産設計提案業務）か、きんざい（個人資産相談業務／保険顧客資産相談業務）から選ぶ。試験はCBT方式で、日程は各実施団体の公式サイトで確認してね。</p>
   </header>
+
+  <div class="mode" role="group" aria-label="試験の種類">
+    <button id="mode-gakka" aria-pressed="true" data-mode="gakka">学科<small>6分野180問・模擬試験</small></button>
+    <button id="mode-jitsugi" aria-pressed="false" data-mode="jitsugi">実技<small>資料を読む事例問題</small></button>
+  </div>
 
   <nav class="tabs" role="tablist">
     <button role="tab" id="tab-plan" aria-selected="true" data-tab="plan">プラン</button>
@@ -269,6 +294,18 @@ h1{font-size:1.9rem;color:var(--accent);text-align:center}
       <div id="resetArea"><button class="ghost" id="resetStats">記録をリセットする</button></div>
     </div>
     <div id="promoWeak"></div>
+  </section>
+
+  <!-- 実技 -->
+  <section class="panel" id="panel-jitsugi" hidden>
+    <div class="box" id="jIntro">
+      <h2>実技：資産設計提案業務（日本FP協会）</h2>
+      <p style="margin:0;font-size:.9rem">キャッシュフロー表や保険証券、家系図などの資料を読んで答える事例形式。本番は三択20問を60分で解いて、100点満点中60点以上で合格。学科で覚えた知識を「資料から数字を拾って計算する」練習をしよう。</p>
+      <div class="cases" id="jList"></div>
+      <p class="foot" id="jNote">事例はすべてオリジナル。学科の1周目が終わった分野から解くのがおすすめ。</p>
+    </div>
+    <div class="box" id="jBox" hidden></div>
+    <div id="promoJ"></div>
   </section>
 
   <p class="foot">このツールは個人が作成した無料の学習ツールで、教材紹介の一部にアフィリエイト広告（PR）を含みます。問題はすべてオリジナルで、2026年10月時点の制度にもとづいて作成。税制や社会保険は法改正が多いので、受験する回の法令基準日を各実施団体の公式情報で確認してね。合格に必要な勉強時間は一般的な目安で、個人差があるよ。</p>
@@ -574,7 +611,7 @@ const KEY="fp3nav-stats-v2";
 function loadStats(){try{const s=JSON.parse(localStorage.getItem(KEY)||"{}");return s&&typeof s==="object"?s:{}}catch(e){return {}}}
 function saveStats(){try{localStorage.setItem(KEY,JSON.stringify(stats))}catch(e){}}
 let stats=loadStats();
-stats.f=stats.f||{}; stats.wrong=Array.isArray(stats.wrong)?stats.wrong:[]; stats.mocks=Array.isArray(stats.mocks)?stats.mocks:[];
+stats.f=stats.f||{}; stats.jc=stats.jc&&typeof stats.jc==="object"?stats.jc:{}; stats.wrong=Array.isArray(stats.wrong)?stats.wrong:[]; stats.mocks=Array.isArray(stats.mocks)?stats.mocks:[];
 function record(q,ok){
   const s=stats.f[q.f]||{n:0,c:0}; s.n++; if(ok)s.c++; stats.f[q.f]=s;
   const set=new Set(stats.wrong); if(ok)set.delete(q.id); else set.add(q.id); stats.wrong=[...set];
@@ -644,7 +681,7 @@ function renderPlan(){
     <p>1分野ずつ「ミニ問題を解く→解説を読む→テキストの該当箇所を確認する」をくり返す。最初はわからなくて当然なので、すぐ答え合わせをして大丈夫。先に問題を見ておくと、テキストのどこが大事かがわかる。</p>
     <div class="fields">${rows}</div></div>
   <div class="phase"><span class="tag">STEP 2</span><div><h3>2周目：模擬試験と解き直し</h3><div class="date">${fmt(s2)}〜${fmt(addDays(s3,-1))}</div></div>
-    <p>週1〜2回の模擬試験（60問・120分）で実力を測りながら、間違えた問題を解き直す。模擬試験で6割を超えたら公式サイトの過去問・サンプル問題と実技対策へ。ここが一番点数が伸びる時期。</p></div>
+    <p>週1〜2回の模擬試験（60問・120分）で実力を測りながら、間違えた問題を解き直す。模擬試験で6割を超えたら、公式サイトの過去問・サンプル問題と、上の「実技」で事例問題へ。ここが一番点数が伸びる時期。</p></div>
   <div class="phase"><span class="tag">STEP 3</span><div><h3>直前仕上げ：苦手つぶし</h3><div class="date">${fmt(s3)}〜${fmt(addDays(exam,-1))}</div></div>
     <p>「苦手」タブで正答率が低い分野と「間違えた問題」を集中して復習。最後にもう一度模擬試験を通しで解いて、8割を目標に。</p></div>`;
   recPlan(days);
@@ -799,12 +836,170 @@ function renderWeak(){
   if(untried.length) html+=`<p class="foot">まだ解いていない分野：${untried.map(r=>r.short).join("・")}</p>`;
   adv.innerHTML=html;
 }
+/* ---- 学科／実技の切り替え ---- */
+/* 実技（日本FP協会：資産設計提案業務）の事例問題。すべてオリジナル。資料(mat)を読んで答える三択。 */
+const JCASES = [
+ {id:"j-life", f:"life", title:"山田さん家のキャッシュフロー表と6つの係数",
+  mat:`<p>会社員の山田さん（40歳）一家のキャッシュフロー表の一部と、係数早見表（年利2%・期間10年）。</p>
+  <div class="tbl"><table><thead><tr><th>（単位：万円）</th><th>変動率</th><th>基準年</th><th>1年後</th><th>2年後</th><th>3年後</th></tr></thead>
+  <tbody><tr><th>給与収入（夫）</th><td>1%</td><td>500</td><td>505</td><td>510</td><td>515</td></tr>
+  <tr><th>基本生活費</th><td>1%</td><td>280</td><td>283</td><td>286</td><td>（ア）</td></tr>
+  <tr><th>年間収支</th><td></td><td>40</td><td>50</td><td>…</td><td>…</td></tr>
+  <tr><th>金融資産残高</th><td>1%</td><td>600</td><td>（イ）</td><td>…</td><td>…</td></tr></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th>係数（2%・10年）</th><th>値</th></tr></thead>
+  <tbody><tr><th>終価係数</th><td>1.2190</td></tr><tr><th>現価係数</th><td>0.8203</td></tr><tr><th>減債基金係数</th><td>0.0913</td></tr>
+  <tr><th>資本回収係数</th><td>0.1113</td></tr><tr><th>年金終価係数</th><td>10.9497</td></tr><tr><th>年金現価係数</th><td>8.9826</td></tr></tbody></table></div>
+  <p class="foot">※計算結果は万円未満を四捨五入する。金融資産残高は「前年の残高×（1＋運用利率）＋その年の年間収支」で計算する。</p>`,
+  qs:[
+   {q:"キャッシュフロー表の空欄（ア）、3年後の基本生活費はいくら？",o:["286万円","288万円","290万円"],a:1,e:"基準年の280万円を1%で3年間増やすので、280×1.01×1.01×1.01＝288.48…→288万円。前年の数字に1.01を掛けるのではなく、基準年から計算するのがポイント。"},
+   {q:"キャッシュフロー表の空欄（イ）、1年後の金融資産残高はいくら？",o:["650万円","656万円","662万円"],a:1,e:"600×（1＋0.01）＋50＝656万円。前年の残高に運用益を足してから、その年の年間収支を足す。"},
+   {q:"山田さんは、年利2%で毎年一定額を積み立てて10年後に200万円を準備したい。毎年の積立額はいくら？",o:["182,600円","200,000円","222,600円"],a:0,e:"目標額から毎年の積立額を求めるのは減債基金係数。200万円×0.0913＝182,600円。"},
+   {q:"山田さんの父は、退職金1,000万円を年利2%で運用しながら10年間で均等に取り崩したい。毎年受け取れる金額はいくら？",o:["913,000円","1,000,000円","1,113,000円"],a:2,e:"今ある元本から毎年の受取額を求めるのは資本回収係数。1,000万円×0.1113＝1,113,000円。運用しながら取り崩すので、単純に10で割った額より多くなる。"}
+  ]},
+ {id:"j-risk", f:"risk", title:"佐藤さんの生命保険証券",
+  mat:`<p>会社員の佐藤さん（45歳）が加入している定期保険特約付終身保険の内容。契約者・被保険者は佐藤さん、死亡保険金受取人は妻。</p>
+  <div class="tbl"><table><thead><tr><th>保障の内容</th><th>保険金額・給付金額</th></tr></thead>
+  <tbody><tr><th>終身保険（主契約）</th><td>300万円</td></tr>
+  <tr><th>定期保険特約</th><td>2,000万円</td></tr>
+  <tr><th>特定疾病保障定期保険特約</th><td>500万円</td></tr>
+  <tr><th>傷害特約</th><td>500万円</td></tr>
+  <tr><th>疾病入院特約</th><td>日額5,000円（入院1日目から）</td></tr></tbody></table></div>
+  <p class="foot">※特定疾病保障定期保険特約は、がん・急性心筋梗塞・脳卒中で所定の状態になったときに保険金が支払われ、特定疾病以外で死亡した場合も同額の死亡保険金が支払われる。傷害特約は不慮の事故で死亡したときに支払われる。各特約の保険期間中とする。</p>`,
+  qs:[
+   {q:"佐藤さんが交通事故で死亡した場合、支払われる死亡保険金の合計はいくら？",o:["2,300万円","2,800万円","3,300万円"],a:2,e:"終身300万＋定期保険特約2,000万＋特定疾病保障定期保険特約500万（特定疾病以外の死亡でも支払われる）＋傷害特約500万（不慮の事故）＝3,300万円。"},
+   {q:"佐藤さんが初めてがんと診断され、所定の状態に該当し、10日間入院した（手術なし）。この保険から受け取れる金額の合計はいくら？",o:["50,000円","5,000,000円","5,050,000円"],a:2,e:"特定疾病保険金500万円＋疾病入院給付金5,000円×10日＝5万円で、合計505万円。生前に特定疾病保険金を受け取ると、その特約は消滅する。"},
+   {q:"佐藤さんが死亡し、妻が受け取った死亡保険金にかかる税金はどれ？",o:["所得税・住民税","相続税","贈与税"],a:1,e:"契約者（保険料を払う人）と被保険者が同じ人の死亡保険金は相続税の対象。相続人が受け取る場合は「500万円×法定相続人の数」の非課税枠もある。"}
+  ]},
+ {id:"j-kinyu", f:"kinyu", title:"株式の投資指標と外貨預金",
+  mat:`<p>鈴木さんが検討している上場会社X社の株式のデータと、米ドル建て外貨預金の為替レート。</p>
+  <div class="tbl"><table><thead><tr><th>X社のデータ</th><th>値</th></tr></thead>
+  <tbody><tr><th>株価</th><td>2,400円</td></tr><tr><th>1株当たり純利益</th><td>160円</td></tr>
+  <tr><th>1株当たり純資産</th><td>2,000円</td></tr><tr><th>1株当たり年間配当金</th><td>48円</td></tr></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th>米ドル（1ドルあたり）</th><th>TTS</th><th>TTM</th><th>TTB</th></tr></thead>
+  <tbody><tr><th>預入時</th><td>151円</td><td>150円</td><td>149円</td></tr><tr><th>満期時</th><td>156円</td><td>155円</td><td>154円</td></tr></tbody></table></div>
+  <p class="foot">※外貨預金の利息と税金は考えないものとする。</p>`,
+  qs:[
+   {q:"X社株式のPER（株価収益率）はいくら？",o:["12倍","15倍","20倍"],a:1,e:"PER＝株価÷1株当たり純利益＝2,400÷160＝15倍。"},
+   {q:"X社株式のPBR（株価純資産倍率）はいくら？",o:["0.83倍","1.2倍","1.5倍"],a:1,e:"PBR＝株価÷1株当たり純資産＝2,400÷2,000＝1.2倍。"},
+   {q:"X社株式の配当利回りはいくら？",o:["2.0%","3.0%","3.3%"],a:0,e:"配当利回り＝1株当たり年間配当金÷株価×100＝48÷2,400×100＝2.0%。"},
+   {q:"鈴木さんが円を1万ドルの外貨預金に換えて預け入れ、満期時に円に戻した。円ベースでの損益はいくら？",o:["30,000円の利益","40,000円の利益","50,000円の利益"],a:0,e:"預け入れはTTSで151万円が必要、引き出しはTTBで154万円になるので、154万−151万＝3万円の利益。預け入れはTTS、引き出しはTTBを使う。"}
+  ]},
+ {id:"j-tax", f:"tax", title:"会社員の高橋さんの所得と医療費控除",
+  mat:`<p>会社員の高橋さん（38歳）のその年の収入と支出。給与以外の収入はない。</p>
+  <div class="tbl"><table><tbody><tr><th>給与収入</th><td>600万円</td></tr>
+  <tr><th>支払った医療費</th><td>32万円</td></tr><tr><th>医療費のうち保険金で補てんされた額</th><td>8万円</td></tr></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th>給与等の収入金額</th><th>給与所得控除額</th></tr></thead>
+  <tbody><tr><th>190万円以下</th><td>65万円</td></tr><tr><th>190万円超 360万円以下</th><td>収入金額×30%＋8万円</td></tr>
+  <tr><th>360万円超 660万円以下</th><td>収入金額×20%＋44万円</td></tr><tr><th>660万円超 850万円以下</th><td>収入金額×10%＋110万円</td></tr>
+  <tr><th>850万円超</th><td>195万円（上限）</td></tr></tbody></table></div>
+  <p class="foot">※この事例の計算は上の表を使う。</p>`,
+  qs:[
+   {q:"高橋さんの給与所得の金額はいくら？",o:["420万円","436万円","456万円"],a:1,e:"給与所得控除額＝600万×20%＋44万＝164万円。給与所得＝600万−164万＝436万円。"},
+   {q:"高橋さんの医療費控除の額はいくら？",o:["14万円","22万円","24万円"],a:0,e:"支払った医療費32万−保険金で補てんされた8万−10万（総所得金額等が200万円以上なので10万円）＝14万円。"},
+   {q:"高橋さんが医療費控除を受けるために必要な手続きはどれ？",o:["勤務先の年末調整で申告する","確定申告をする","手続きは不要で自動的に適用される"],a:1,e:"医療費控除は年末調整では受けられないので、会社員でも確定申告が必要。"}
+  ]},
+ {id:"j-fudosan", f:"fudosan", title:"伊藤さんが買いたい土地の建築制限",
+  mat:`<p>伊藤さんが自宅を建てるために購入を検討している土地。</p>
+  <div class="tbl"><table><tbody><tr><th>敷地面積</th><td>200㎡</td></tr><tr><th>用途地域</th><td>第一種住居地域</td></tr>
+  <tr><th>指定建ぺい率</th><td>60%</td></tr><tr><th>指定容積率</th><td>300%</td></tr>
+  <tr><th>前面道路の幅員</th><td>6m（この道路だけに接している）</td></tr><tr><th>前面道路幅員による容積率の制限</th><td>前面道路の幅員×4/10</td></tr></tbody></table></div>
+  <p class="foot">※角地による緩和、防火地域などの規制は考えないものとする。</p>`,
+  qs:[
+   {q:"この土地に建てられる建築物の建築面積の最高限度は？",o:["120㎡","200㎡","240㎡"],a:0,e:"建築面積の上限＝敷地面積×建ぺい率＝200㎡×60%＝120㎡。"},
+   {q:"この土地に建てられる建築物の延べ面積の最高限度は？",o:["400㎡","480㎡","600㎡"],a:1,e:"前面道路の幅員が12m未満なので、6m×4/10＝240%と指定容積率300%の小さいほうの240%を使う。200㎡×240%＝480㎡。"},
+   {q:"この土地に自宅を建てて住んだ場合、固定資産税の課税標準はどうなる？",o:["2分の1に軽減される","3分の1に軽減される","6分の1に軽減される"],a:2,e:"住宅用地のうち200㎡以下の部分（小規模住宅用地）は、固定資産税の課税標準が6分の1になる。この土地は200㎡なので全体が対象。"}
+  ]},
+ {id:"j-sozoku", f:"sozoku", title:"中村さん一家の相続",
+  mat:`<p>中村Aさんが亡くなった。親族関係は次のとおり。</p>
+  <ul class="fam"><li>配偶者：妻B（存命）</li><li>長男C（存命）</li><li>長女D（Aさんより先に死亡）</li><li>Dの子：孫E・孫F（ともに存命）</li></ul>
+  <p class="foot">※相続の放棄をした人はいない。養子はいない。</p>`,
+  qs:[
+   {q:"Aさんの相続における法定相続人は何人？",o:["3人","4人","5人"],a:1,e:"妻B、長男C、そして先に亡くなった長女Dの代わりに代襲相続する孫E・孫Fの4人。"},
+   {q:"孫Eの法定相続分は？",o:["4分の1","6分の1","8分の1"],a:2,e:"配偶者が2分の1、子全体で2分の1。子はCとDの2人なので各4分の1。Dの4分の1をEとFで分けるので、Eは8分の1。"},
+   {q:"相続税の遺産に係る基礎控除額はいくら？",o:["4,800万円","5,400万円","6,000万円"],a:1,e:"3,000万円＋600万円×法定相続人4人＝5,400万円。"},
+   {q:"相続人が受け取った死亡保険金の非課税限度額はいくら？",o:["1,500万円","2,000万円","2,500万円"],a:1,e:"500万円×法定相続人の数（4人）＝2,000万円。"}
+  ]}
+];
+const FACTS={gakka:document.getElementById("facts").innerHTML,
+  jitsugi:`<div class="fact"><b>20問</b><span>実技（三択・FP協会）</span></div><div class="fact"><b>60分</b><span>実技の試験時間</span></div><div class="fact"><b>60点〜</b><span>合格ライン（100点満点）</span></div>`};
+function setMode(m){
+  stats.mode=m; saveStats();
+  document.querySelectorAll(".mode button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.mode===m?"true":"false"));
+  document.getElementById("facts").innerHTML=FACTS[m];
+  document.querySelector(".tabs").hidden=m!=="gakka";
+  if(m==="gakka"){document.getElementById("panel-jitsugi").hidden=true;const cur=document.querySelector('.tabs [aria-selected="true"]');showTab(cur?cur.dataset.tab:"plan")}
+  else{["plan","quiz","mock","weak"].forEach(t=>document.getElementById("panel-"+t).hidden=true);document.getElementById("panel-jitsugi").hidden=false;renderJList()}
+}
+document.querySelectorAll(".mode button").forEach(b=>b.addEventListener("click",()=>setMode(b.dataset.mode)));
+
+/* ---- 実技の事例 ---- */
+let jc=null;
+function renderJList(){
+  document.getElementById("jList").innerHTML=JCASES.map(c=>{const r=stats.jc[c.id];
+    return `<button class="case" data-c="${c.id}"><span class="k">${fshort(c.f)}</span><b>${c.title}</b><span class="best ${r&&r.best===c.qs.length?"ok":""}">${c.qs.length}問<br>${r?`ベスト ${r.best}/${c.qs.length}`:"未挑戦"}</span></button>`}).join("");
+  const v=document.getElementById("jitsugi").value;
+  document.getElementById("jNote").textContent=(v==="kojin"||v==="hoken")
+    ?"きんざい（個人資産相談業務／保険顧客資産相談業務）の事例は準備中。数字を資料から拾う考え方は共通なので、ここの事例も練習になるよ。"
+    :"事例はすべてオリジナル。学科の1周目が終わった分野から解くのがおすすめ。きんざいの科目の事例は準備中。";
+}
+document.getElementById("jList").addEventListener("click",e=>{const b=e.target.closest(".case");if(b)startCase(b.dataset.c)});
+function startCase(id){
+  const c=JCASES.find(x=>x.id===id); jc={c,i:0,ok:0};
+  document.getElementById("jIntro").hidden=true;
+  document.getElementById("promoJ").innerHTML="";
+  const box=document.getElementById("jBox"); box.hidden=false;
+  box.innerHTML=`<div class="qmeta"><span>実技・${fname(c.f)}</span><button class="chip" id="jBack" style="padding:2px 10px">一覧へ</button></div>
+    <h2>${c.title}</h2>
+    <details class="mat" open><summary>資料</summary>${c.mat}</details>
+    <div id="jQ" aria-live="polite" style="display:grid;gap:12px"></div>`;
+  document.getElementById("jBack").addEventListener("click",backToList);
+  showJQ(); box.scrollIntoView({block:"start"});
+}
+function backToList(){document.getElementById("jBox").hidden=true;document.getElementById("promoJ").innerHTML="";document.getElementById("jIntro").hidden=false;renderJList()}
+function showJQ(){
+  const q=jc.c.qs[jc.i], el=document.getElementById("jQ");
+  el.innerHTML=`<div class="qmeta"><span>問${jc.i+1}</span><span>${jc.i+1} / ${jc.c.qs.length}</span></div>
+    <div class="qtext">${q.q}</div>
+    <div class="opts">${q.o.map((o,k)=>`<button class="opt" data-i="${k}">${k+1}．${o}</button>`).join("")}</div><div id="jAfter"></div>`;
+  el.querySelectorAll(".opt").forEach(b=>b.addEventListener("click",()=>answerJ(+b.dataset.i)));
+}
+function answerJ(i){
+  const q=jc.c.qs[jc.i], el=document.getElementById("jQ"), ok=i===q.a; if(ok)jc.ok++;
+  el.querySelectorAll(".opt").forEach(b=>{const k=+b.dataset.i;b.disabled=true;if(k===q.a)b.classList.add("right");else if(k===i)b.classList.add("wrong")});
+  const last=jc.i===jc.c.qs.length-1;
+  document.getElementById("jAfter").innerHTML=`${MAS?(ok?say("oimo","cheer",pick(["正解！資料の読み方ばっちり","その調子！計算もできてる","さすが！"])):say("mallow","smile",pick(["おしい！解説の式をもう一度たどってみよう","資料のどの数字を使うか、解説で確認しよう","大丈夫、もう一回解けば覚えられるよ"]))):""}<div class="explain"><b>${ok?"正解！":"おしい、不正解。"}</b> ${q.e}</div>
+    <button class="primary" id="jNext" style="margin-top:12px">${last?"結果を見る":"次の問題へ"}</button>`;
+  document.getElementById("jNext").addEventListener("click",()=>{if(last)resultJ();else{jc.i++;showJQ()}});
+  document.getElementById("jNext").focus();
+}
+function resultJ(){
+  const c=jc.c,n=c.qs.length,ok=jc.ok,pct=Math.round(ok/n*100);
+  const r=stats.jc[c.id]||{best:0,n:0}; r.best=Math.max(r.best,ok); r.n++; stats.jc[c.id]=r; saveStats();
+  const next=JCASES[(JCASES.indexOf(c)+1)%JCASES.length];
+  const msg=ok===n?"全問正解！この形の資料はもう大丈夫。":pct>=60?"合格ラインは超えてる。間違えた問題の解説だけ読み直そう。":"資料のどの数字を使うかがポイント。学科の「"+fname(c.f)+"」を復習してからもう一度解いてみよう。";
+  document.getElementById("jQ").innerHTML=`<div class="qmeta"><span>この事例の結果</span><span>${n}問</span></div>
+    <div class="score">${ok} / ${n}</div>${MAS?say(pct>=60?"oimo":"mallow",pct>=60?"cheer":"smile",msg):`<p style="margin:0">${msg}</p>`}
+    <button class="primary" id="jNextCase">次の事例へ：${next.title}</button>
+    <div class="row2"><button class="ghost" id="jAgain">もう一度解く</button><button class="ghost" id="jList2">事例の一覧へ</button></div>`;
+  document.getElementById("jNextCase").addEventListener("click",()=>startCase(next.id));
+  document.getElementById("jAgain").addEventListener("click",()=>startCase(c.id));
+  document.getElementById("jList2").addEventListener("click",backToList);
+  recJ(pct,c);
+}
+function recJ(pct,c){
+  if(!CFG.promo) return;
+  const keys=pct<60?["text"]:["jitsugi_fp","mondai"];
+  const lead=pct<60?`正答率${pct}%。テキストの「${fname(c.f)}」の章で計算の式を確認してから解き直すと、実技の点数も上がるよ。`:`正答率${pct}%でいい感じ。問題集にはFP協会の実技の問題も載っているから、事例の量を増やして本番の形式に慣れよう。`;
+  document.getElementById("promoJ").innerHTML=recBox(avail(keys).slice(0,1),lead,false);
+}
+if(stats.mode==="jitsugi") setMode("jitsugi");
+
 const resetArea=document.getElementById("resetArea");
 resetArea.addEventListener("click",e=>{
   const id=e.target.id;
   if(id==="resetStats") resetArea.innerHTML=`<div class="explain"><b>正答率・間違えた問題・模擬試験の記録をすべて消す？</b></div><div class="row2" style="margin-top:8px"><button class="ghost" id="rNo">やめる</button><button class="danger" id="rYes">消す</button></div>`;
   if(id==="rNo") resetArea.innerHTML=`<button class="ghost" id="resetStats">記録をリセットする</button>`;
-  if(id==="rYes"){stats={f:{},wrong:[],mocks:[]};saveStats();renderWeak();renderChips();resetArea.innerHTML=`<p class="foot">記録をリセットしたよ。</p><button class="ghost" id="resetStats">記録をリセットする</button>`}
+  if(id==="rYes"){stats={f:{},wrong:[],mocks:[],jc:{},jitsugi:stats.jitsugi,mode:stats.mode};renderJList();saveStats();renderWeak();renderChips();resetArea.innerHTML=`<p class="foot">記録をリセットしたよ。</p><button class="ghost" id="resetStats">記録をリセットする</button>`}
 });
 </script>
 
