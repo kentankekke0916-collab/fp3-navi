@@ -165,7 +165,7 @@ h1 a{color:inherit;text-decoration:none}
     <div id="mascotHead"></div>
     <div class="facts" id="facts">
       <div class="fact"><b>60問</b><span>学科（○×30＋三択30）</span></div>
-      <div class="fact"><b>120分</b><span>学科の試験時間</span></div>
+      <div class="fact"><b>90分</b><span>学科の試験時間</span></div>
       <div class="fact"><b>36点〜</b><span>合格ライン（6割）</span></div>
     </div>
     <p class="note">学科と実技の両方に合格して FP3級。実技は日本FP協会（資産設計提案業務）か、きんざい（個人資産相談業務／保険顧客資産相談業務）から選ぶ。試験はCBT方式で、日程は各実施団体の公式サイトで確認してね。</p>
@@ -230,8 +230,8 @@ h1 a{color:inherit;text-decoration:none}
   <section class="panel" id="panel-mock" hidden>
     <div class="box" id="mockIntro">
       <h2>本番形式の模擬試験</h2>
-      <p style="margin:0">本番の学科と同じく、○×30問→三択30問の60問を120分で解く。各分野10問ずつ、180問の中から毎回ランダムに出題されるよ。答え合わせは最後にまとめて。</p>
-      <button class="primary" id="startMock">模擬試験をはじめる（60問・120分）</button>
+      <p style="margin:0">本番の学科と同じく、○×30問→三択30問の60問を90分で解く。各分野10問ずつ、180問の中から毎回ランダムに出題されるよ。答え合わせは最後にまとめて。</p>
+      <button class="primary" id="startMock">模擬試験をはじめる（60問・90分）</button>
       <p class="foot" id="mockLast"></p>
     </div>
     <div class="box" id="mockBox" hidden></div>
@@ -645,7 +645,7 @@ function renderPlan(){
     <p>1分野ずつ「ミニ問題を解く→解説を読む→テキストの該当箇所を確認する」をくり返す。最初はわからなくて当然なので、すぐ答え合わせをして大丈夫。先に問題を見ておくと、テキストのどこが大事かがわかる。</p>
     <div class="fields">${rows}</div></div>
   <div class="phase"><span class="tag">STEP 2</span><div><h3>2周目：模擬試験と解き直し</h3><div class="date">${fmt(s2)}〜${fmt(addDays(s3,-1))}</div></div>
-    <p>週1〜2回の模擬試験（60問・120分）で実力を測りながら、間違えた問題を解き直す。模擬試験で6割を超えたら、公式サイトの過去問・サンプル問題と、上の「実技」で事例問題へ。ここが一番点数が伸びる時期。</p></div>
+    <p>週1〜2回の模擬試験（60問・90分）で実力を測りながら、間違えた問題を解き直す。模擬試験で6割を超えたら、公式サイトの過去問・サンプル問題と、上の「実技」で事例問題へ。ここが一番点数が伸びる時期。</p></div>
   <div class="phase"><span class="tag">STEP 3</span><div><h3>直前仕上げ：苦手つぶし</h3><div class="date">${fmt(s3)}〜${fmt(addDays(exam,-1))}</div></div>
     <p>「苦手」タブで正答率が低い分野と「間違えた問題」を集中して復習。最後にもう一度模擬試験を通しで解いて、8割を目標に。</p></div>`;
   recPlan(days);
@@ -710,7 +710,7 @@ function showResult(){
 }
 
 /* ---- 模擬試験 ---- */
-const MOCK_SEC=120*60;
+const MOCK_SEC=90*60;
 let mock=null, timerId=null;
 function renderMockLast(){
   const el=document.getElementById("mockLast");
